@@ -22,7 +22,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'yssl/vim-fugitive'
 "Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-dispatch'
-Plug 'xolox/vim-session'
+"Plug 'xolox/vim-session'
 Plug 'vim-scripts/Conque-Gdb'
 
 " my plugins
@@ -635,10 +635,17 @@ endfunction
 nnoremap <Leader>vv yyp
 xnoremap <Leader>vv y'[V']y`]p
 
-" open gnome terminal
-nnoremap <Leader>tc :!gnome-terminal<CR><CR>	|" open in CWD
-nnoremap <expr> <Leader>tf ":!gnome-terminal --working-directory=".expand("%:p:h")."<CR><CR>"	|" open in dir of current file
-nnoremap <expr> <Leader>tr ":!gnome-terminal --working-directory=".FindRepoDirFrom(expand("%:p:h"))."<CR><CR>"	|" open in dir of current file
+if has('win32')
+	" open cmd
+	nnoremap <Leader>tc :!start cmd<CR>	|" open in CWD
+	nnoremap <expr> <Leader>tf ":!start cmd /K \"cd /d ".expand("%:p:h")."\"<CR>"	|" open in dir of current file
+	nnoremap <expr> <Leader>tr ":!start cmd /K \"cd /d ".FindRepoDirFrom(expand("%:p:h"))."\"<CR>"	|" open in dir of current file
+else
+	" open gnome terminal
+	nnoremap <Leader>tc :!gnome-terminal<CR><CR>	|" open in CWD
+	nnoremap <expr> <Leader>tf ":!gnome-terminal --working-directory=".expand("%:p:h")."<CR><CR>"	|" open in dir of current file
+	nnoremap <expr> <Leader>tr ":!gnome-terminal --working-directory=".FindRepoDirFrom(expand("%:p:h"))."<CR><CR>"	|" open in dir of current file
+endif
 
 " open nautilus file explorer
 nnoremap <expr> <Leader>fc ":!nautilus ".getcwd()."<CR><CR>"	|" open in CWD
@@ -924,4 +931,3 @@ for i in range(len(vim.windows)):
 vim.command('return 1' if exist else 'return 0')
 EOF
 endfunction
-
