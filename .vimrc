@@ -6,17 +6,15 @@ filetype off
 
 call plug#begin()
 
-" from PlugSearch
-Plug 'ctrlp.vim'
-Plug 'The-NERD-tree'
-Plug 'Tagbar'
-Plug 'The-NERD-Commenter'
+Plug 'scrooloose/nerdtree'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'majutsushi/tagbar'
+Plug 'scrooloose/nerdcommenter'
 Plug 'AutoComplPop'
 Plug 'TeX-PDF'
 Plug 'a.vim'
 "Plug 'CSApprox'
 
-" from github
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-reload'
 Plug 'sk1418/QFGrep'
