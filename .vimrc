@@ -150,6 +150,7 @@ let mapleader=","
 
 " python errorformat
 "set errorformat+=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
+set errorformat+=ERROREND
 
 """""""""""""""""""""""""""""""""""""""""""""
 " common functions
@@ -250,6 +251,53 @@ set noexpandtab
 set makeprg=stdbuf\ -i0\ -o0\ -e0\ make\ %
 
 """""""""""""""""""""""""""""""""""""""""""""
+" different cmd for each platform
+
+if has('win32')
+	" non-realtime output. results are displayed in quickfix after program is finished.
+	"\'makeprg=(python\ %\ &\ echo\ ERROREND)',
+
+	" realtime output with cmd. but no way to put results to quickfix.
+	"\'makeprg=start\ cmd\ /c\ \"python\ %\ &\ echo\ ERROREND\"',
+
+	"""""""""""""""""""""""""""""""""""""""""
+	" new windows version using powershell
+	" : realtime output, result are displayed in quickfix after program is finished.
+
+	" temp file to write stdout of program
+	"let s:tempfile = tempname()
+	let s:tempfile = 'c:/Users/yoonsang/temp.txt'
+
+	let s:makeprg_pre = 'start\ powershell\ \"'
+	let s:makeprg_post = '\ \\|\ Set-Content\ '.s:tempfile.'\ -Passthru\ 2>&1\ ;\ echo\ ERROREND\ \\|\ Out-File\ -encoding\ ascii\ -append\ '.s:tempfile.'\"\ ;\ gvim\ --server-name\ '.v:servername.'\ --remote-send\ \":FillQuickfixWithTempFile\"'
+
+	" 'makeprg='.s:makeprg_pre.'python\ %'.s:makeprg_post
+	" ->
+	" 'makeprg=start\ powershell\ \"python\ %\ \\|\ Set-Content\ '.s:tempfile.'\ -Passthru\ 2>&1\ ;\ echo\ ERROREND\ \\|\ Out-File\ -encoding\ ascii\ -append\ '.s:tempfile.'\"\ ;\ gvim\ --server-name\ '.v:servername.'\ --remote-send\ \":FillQuickfixWithTempFile\"'
+	" ->
+	" start powershell "python test.py | Set-Content c:/Users/yoonsang/temp.txt -Passthru 2>&1 ; echo ERROREND | Out-File -encoding ascii -append c:/Users/yoonsang/temp.txt" ; gvim --server-name GVIM --remote-send ":FillQuickfixWithTempFile"
+
+	func! s:FillQuickfixWithTempFile()
+		exec 'cgetfile '.s:tempfile
+		call delete(s:tempfile)
+	endfun
+
+	command! FillQuickfixWithTempFile call s:FillQuickfixWithTempFile()
+
+else
+	"""""""""""""""""""""""""""""""""""""""""
+	" linux version
+	" : no delay, unbuffered screen output
+
+	let s:makeprg_pre = 'stdbuf\ -i0\ -o0\ '
+	let s:makeprg_post = ';\ echo\ ERROREND'
+
+	" 'makeprg='.s:makeprg_pre.'python\ %'.s:makeprg_post
+	" ->
+	" stdbuf -i0 -o0 python test.py; echo ERROREND
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""
 " local settings for file path
 
 let g:autosettings_settings = [
@@ -260,11 +308,11 @@ let g:autosettings_settings = [
 	\}],
 	\[['*.py'],{
 		\'localMaps':[
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:Make; echo \"END:0::\"<CR>']
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:Make<CR>']
 		\],
 		\'setLocals':[
 			\'expandtab',
-			\'makeprg=stdbuf\ -i0\ -o0\ -e0\ python\ %',
+			\'makeprg='.s:makeprg_pre.'python\ %'.s:makeprg_post,
 		\],
 	\}],
 	\[['*.tex'],{
@@ -315,6 +363,7 @@ let g:autosettings_settings = [
 		\},
 	\}],
 \]
+
 
 " F9 : build & run
 " C-S-A-F9 : build all & run
@@ -400,25 +449,12 @@ let g:autosettings_settings = [
 
 	"autocmd BufEnter *.tex exec 'nnoremap <buffer> <expr> <Leader>sc ":!aspell --lang=en --mode=tex -c ".expand("%:p")."\<CR>"'
 
-	"if has('win32')
-		"autocmd BufEnter *.py setlocal makeprg=start\ c:\\python27\\python\ %	|"realtime output, but no quickfix output. You can copy&paste text in cmd window.
-		""autocmd BufEnter *.py setlocal makeprg=c:\\python27\\python\ %		|"stdout automatically goes to quickfix when process finished, but no realtime print
-	"else
-		"autocmd BufEnter *.py setlocal makeprg=stdbuf\ -i0\ -o0\ -e0\ python\ %	|"no delay, unbuffered screen output
-	"endif
-
-	"" makeprg
-	"if has('win32')
-		"autocmd BufEnter *.cpp\|.c\|.h\|.hpp set makeprg=make
-	"else
-		"autocmd BufEnter *.cpp\|.c\|.h\|.hpp setlocal makeprg=stdbuf\ -i0\ -o0\ -e0\ make
-	"endif
-
 	"" build & run shortcut
 	"autocmd BufEnter *.cpp\|.c\|.h\|.hpp exec "call s:nnoreicmap('<buffer>','<F9>',':Make ".g:build_char."buildrun; echo \"END:0::\"<CR>')"
 	"autocmd BufEnter *.cpp\|.c\|.h\|.hpp exec "call s:nnoreicmap('<buffer>','<C-F9>',':Make ".g:build_char."run; echo \"END:0::\"<CR>')"
 	"autocmd BufEnter *.cpp\|.c\|.h\|.hpp exec "call s:nnoreicmap('<buffer>','<A-F9>',':Make ".g:build_char."build; echo \"END:0::\"<CR>')"
 	"autocmd BufEnter *.cpp\|.c\|.h\|.hpp exec "call s:nnoreicmap('<buffer>','<S-F9>',':call StartDebugger()<CR>')"
+
 function! Tex_ForwardSearchLaTeX()
 let cmd = 'evince_forward_search ' . fnamemodify(Tex_GetMainFileName(), ":p:r") . '.pdf ' . line(".") . ' ' . expand("%:p")
 let output = system(cmd)
