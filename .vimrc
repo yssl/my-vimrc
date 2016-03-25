@@ -148,10 +148,6 @@ set fdm=indent
 " change <leader> key
 let mapleader=","
 
-" python errorformat
-"set errorformat+=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
-set errorformat+=ERROREND
-
 """""""""""""""""""""""""""""""""""""""""""""
 " common functions
 """""""""""""""""""""""""""""""""""""""""""""
@@ -250,32 +246,38 @@ set noexpandtab
 " makeprg (with immediate output prints)
 set makeprg=stdbuf\ -i0\ -o0\ -e0\ make\ %
 
+" errorformat to go to the last line ("ERROREND" print out)
+set errorformat+=ERROREND
+set errorformat+=ERROREND\ 
+
 """""""""""""""""""""""""""""""""""""""""""""
-" different cmd for each platform
+" different makeprg for each platform
 
 if has('win32')
-	" non-realtime output. results are displayed in quickfix after program is finished.
+	" blocking make. results are displayed in quickfix after program is finished.
 	"\'makeprg=(python\ %\ &\ echo\ ERROREND)',
 
-	" realtime output with cmd. but no way to put results to quickfix.
+	" non-blocking make. but no way to put results to quickfix.
 	"\'makeprg=start\ cmd\ /c\ \"python\ %\ &\ echo\ ERROREND\"',
 
 	"""""""""""""""""""""""""""""""""""""""""
-	" new windows version using powershell
-	" : realtime output, result are displayed in quickfix after program is finished.
+	" new windows version using GnuWin CoreUtils tee (http://gnuwin32.sourceforge.net/packages.html#Setup)
+	" : non-blocking make, result are displayed in quickfix after program is finished.
+	" unbuffered output should be done by each makeprg, because ms windows inherently does not have something like 'stdbuf'
+	" for example, python -u
 
 	" temp file to write stdout of program
 	"let s:tempfile = tempname()
 	let s:tempfile = 'c:/Users/yoonsang/temp.txt'
 
-	let s:makeprg_pre = 'start\ powershell\ \"'
-	let s:makeprg_post = '\ \\|\ Set-Content\ '.s:tempfile.'\ -Passthru\ 2>&1\ ;\ echo\ ERROREND\ \\|\ Out-File\ -encoding\ ascii\ -append\ '.s:tempfile.'\"\ ;\ gvim\ --server-name\ '.v:servername.'\ --remote-send\ \":FillQuickfixWithTempFile\"'
+	let s:makeprg_pre = 'start\ cmd\ /c\ \"('
+	let s:makeprg_post = '\ &\ echo\ ERROREND)\ \\|\ tee\ '.s:tempfile.'\ &\ gvim\ --server-name\ '.v:servername.'\ --remote-send\ :FillQuickfixWithTempFile<CR>\"'
 
-	" 'makeprg='.s:makeprg_pre.'python\ %'.s:makeprg_post
+	" 'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post
 	" ->
-	" 'makeprg=start\ powershell\ \"python\ %\ \\|\ Set-Content\ '.s:tempfile.'\ -Passthru\ 2>&1\ ;\ echo\ ERROREND\ \\|\ Out-File\ -encoding\ ascii\ -append\ '.s:tempfile.'\"\ ;\ gvim\ --server-name\ '.v:servername.'\ --remote-send\ \":FillQuickfixWithTempFile\"'
+	" 'makeprg=start\ cmd\ /c\ \"(python\ -u\ %\ &\ echo\ ERROREND)\ \\|\ tee\ '.s:tempfile.'\ &\ gvim\ --server-name\ '.v:servername.'\ --remote-send\ :FillQuickfixWithTempFile<CR>\"'
 	" ->
-	" start powershell "python test.py | Set-Content c:/Users/yoonsang/temp.txt -Passthru 2>&1 ; echo ERROREND | Out-File -encoding ascii -append c:/Users/yoonsang/temp.txt" ; gvim --server-name GVIM --remote-send ":FillQuickfixWithTempFile"
+	" start cmd /c "(python -u test.py & echo ERROREND) | tee temp.txt & gvim --server-name GVIM --remote-send :FillQuickfixWithTempFile"
 
 	func! s:FillQuickfixWithTempFile()
 		exec 'cgetfile '.s:tempfile
@@ -312,7 +314,7 @@ let g:autosettings_settings = [
 		\],
 		\'setLocals':[
 			\'expandtab',
-			\'makeprg='.s:makeprg_pre.'python\ %'.s:makeprg_post,
+			\'makeprg='.s:makeprg_pre.'python\ -u\ test.py'.s:makeprg_post,
 		\],
 	\}],
 	\[['*.tex'],{
