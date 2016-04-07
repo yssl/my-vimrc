@@ -282,6 +282,7 @@ if has('win32')
 	func! s:FillQuickfixWithTempFile()
 		exec 'cgetfile '.s:tempfile
 		call delete(s:tempfile)
+		call QuickfixCWindowError()
 	endfun
 
 	command! FillQuickfixWithTempFile call s:FillQuickfixWithTempFile()
@@ -310,7 +311,7 @@ let g:autosettings_settings = [
 	\}],
 	\[['*.py'],{
 		\'localMaps':[
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:Make<CR>']
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:silent Make<CR>']
 		\],
 		\'setLocals':[
 			\'expandtab',
@@ -642,7 +643,7 @@ function! QuickfixCOpen()
 	wincmd p
 endfunction
 
-" first call : open quickfix, second call : jump to quickfix
+" first call : open quickfix, second call : jump to quickfix and jump to the last error
 function! QuickfixFocusOrOpenError(isNext)
 	let qfexist = JumpToWinByBuftype('quickfix')
 	if qfexist==0
@@ -656,10 +657,10 @@ function! QuickfixFocusOrOpenError(isNext)
 	endif
 endfunction
 
+" Open Quickfix if there is error and jump to the last error
 function! QuickfixCWindowError()
 	botright cwindow
 	execute "silent! cla"
-	"execute "silent! normal! /error\<CR>"
 	let qfexist = JumpToWinByBuftype('quickfix')
 	if qfexist==1
 		wincmd p
