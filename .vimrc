@@ -267,17 +267,17 @@ if has('win32')
 	" for example, python -u
 
 	" temp file to write stdout of program
-	"let s:tempfile = tempname()
-	let s:tempfile = 'c:/Users/yoonsang/temp.txt'
+	let s:tempfile = tempname()
+	"let s:tempfile = 'c:/Users/yoonsang/temp.txt'
 
 	let s:makeprg_pre = 'start\ cmd\ /c\ \"('
-	let s:makeprg_post = '\ &\ echo\ ERROREND)\ \\|\ tee\ '.s:tempfile.'\ &\ gvim\ --server-name\ '.v:servername.'\ --remote-send\ :FillQuickfixWithTempFile<CR>\"'
+	let s:makeprg_post = '\ &\ echo\ ERROREND)\ 2>&1\ \\|\ tee\ '.s:tempfile.'\ &\ gvim\ --server-name\ '.v:servername.'\ --remote-send\ :FillQuickfixWithTempFile<CR>\"'
 
 	" 'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post
 	" ->
-	" 'makeprg=start\ cmd\ /c\ \"(python\ -u\ %\ &\ echo\ ERROREND)\ \\|\ tee\ '.s:tempfile.'\ &\ gvim\ --server-name\ '.v:servername.'\ --remote-send\ :FillQuickfixWithTempFile<CR>\"'
+	" 'makeprg=start\ cmd\ /c\ \"(python\ -u\ %\ &\ echo\ ERROREND)\ 2>&1\ \\|\ tee\ '.s:tempfile.'\ &\ gvim\ --server-name\ '.v:servername.'\ --remote-send\ :FillQuickfixWithTempFile<CR>\"'
 	" ->
-	" start cmd /c "(python -u test.py & echo ERROREND) | tee temp.txt & gvim --server-name GVIM --remote-send :FillQuickfixWithTempFile"
+	" start cmd /c "(python -u test.py & echo ERROREND) 2>&1 | tee temp.txt & gvim --server-name GVIM --remote-send :FillQuickfixWithTempFile"
 
 	func! s:FillQuickfixWithTempFile()
 		exec 'cgetfile '.s:tempfile
@@ -314,7 +314,7 @@ let g:autosettings_settings = [
 		\],
 		\'setLocals':[
 			\'expandtab',
-			\'makeprg='.s:makeprg_pre.'python\ -u\ test.py'.s:makeprg_post,
+			\'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post,
 		\],
 	\}],
 	\[['*.tex'],{
