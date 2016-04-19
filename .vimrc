@@ -271,11 +271,11 @@ if has('win32')
 	"let s:tempfile = 'c:/Users/yoonsang/temp.txt'
 
 	"let s:makeprg_pre = 'start\ cmd\ /c\ \"('
-	"let s:makeprg_post = '\ &\ echo\ ERROREND)\ 2>&1\ \\|\ tee\ '.s:tempfile.'\ &\ gvim\ --server-name\ '.v:servername.'\ "--remote-send\ :FillQuickfixWithTempFile^<CR^>\"'
+	"let s:makeprg_post = '\ &\ echo.\ &\ echo\ \nERROREND)\ 2>&1\ \\|\ tee\ '.s:tempfile.'\ &\ gvim\ --server-name\ '.v:servername.'\ "--remote-send\ :FillQuickfixWithTempFile^<CR^>\"'
 	
 	" for hangul
 	let s:makeprg_pre = 'start\ cmd\ /k\ \"('
-	let s:makeprg_post = '\ &\ echo\ ERROREND)\ 2>&1\"'
+	let s:makeprg_post = '\ &\ echo.\ &\ echo\ ERROREND)\ 2>&1\"'
 	
 	" 'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post
 	" ->
