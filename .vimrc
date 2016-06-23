@@ -97,6 +97,10 @@ source $VIMRUNTIME/vimrc_example.vim
 " The % key will switch between opening and closing brackets. By sourcing matchit.vim, the key can also switch among e.g. if/elsif/else/end, between opening and closing XML tags, and more. 
 runtime macros/matchit.vim
 
+if has('win32')	|" Ctrl+V to paste on Windows
+	source $VIMRUNTIME/mswin.vim
+endif
+
 set fileencodings=utf-8
 
 let g:vimwiki_file_exts='pdf,chm'
@@ -883,6 +887,7 @@ let g:autocwd_patternwd_pairs = [
 	\['*/gallery-lite/*', '*REPO*'],
 	\['*/DMLcpp/*', '*REPO*/DMLcpp'],
 	\['*/DMLpy/*', '*REPO*/DMLpy'],
+	\['*dali*', '*REPO*'],
 	\]
 
 " VIntSearch
