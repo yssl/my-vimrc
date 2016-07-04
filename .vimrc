@@ -369,6 +369,14 @@ let g:autosettings_settings = [
 			\},
 		\},
 	\}],
+	\[['*/DMLpy/*'],{
+		\'localMaps':[
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:silent Make<CR>'],
+		\],
+		\'setLocals':[
+			\'makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rbuild\ %\ &&\ setup.py\ build_ext'.s:makeprg_post,
+		\],
+	\}],
 	\[['*.py'],{
 		\'localMaps':[
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:silent Make<CR>']
@@ -376,6 +384,14 @@ let g:autosettings_settings = [
 		\'setLocals':[
 			\'expandtab',
 			\'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post,
+		\],
+	\}],
+	\[['*/DMLpy/setup.py'],{
+		\'localMaps':[
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:silent Make<CR>'],
+		\],
+		\'setLocals':[
+			\'makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rbuild\ %\ &&\ setup.py\ build_ext'.s:makeprg_post,
 		\],
 	\}],
 \]
