@@ -754,6 +754,10 @@ nmap <expr> <Leader>sc ":!aspell --lang=en -c ".expand('%:p')."\<CR>"
 """""""""""""""""""""""""""""""""""""""""""""
 " plugin mappings
 
+if has('win32')
+	let g:acp_behaviorPythonOmniLength = -1
+endif
+
 " twcmd.vim
 let g:twcmd_focus_after_closing = 'prev_win_curr_tab'
 
