@@ -699,10 +699,17 @@ else
 	nnoremap <expr> <Leader>tr ":!gnome-terminal --working-directory=".FindRepoDirFrom(expand("%:p:h"))."<CR><CR>"	|" open in dir of current file
 endif
 
-" open nautilus file explorer
-nnoremap <expr> <Leader>fc ":!nautilus ".getcwd()."<CR><CR>"	|" open in CWD
-nnoremap <expr> <Leader>ff ":!nautilus ".expand("%:p:h")."<CR><CR>"	|" open in dir of current file
-nnoremap <expr> <Leader>fr ":!nautilus ".FindRepoDirFrom(expand("%:p:h"))."<CR><CR>"	|" open in dir of current file
+if has('win32')
+	" open explorer
+	nnoremap <expr> <Leader>fc ":silent !explorer ".getcwd()."<CR><CR>"	|" open in CWD
+	nnoremap <expr> <Leader>ff ":silent !explorer ".expand("%:p:h")."<CR><CR>"	|" open in dir of current file
+	nnoremap <expr> <Leader>fr ":silent !explorer ".FindRepoDirFrom(expand("%:p:h"))."<CR><CR>"	|" open in dir of current file
+else
+	" open nautilus file explorer
+	nnoremap <expr> <Leader>fc ":!nautilus ".getcwd()."<CR><CR>"	|" open in CWD
+	nnoremap <expr> <Leader>ff ":!nautilus ".expand("%:p:h")."<CR><CR>"	|" open in dir of current file
+	nnoremap <expr> <Leader>fr ":!nautilus ".FindRepoDirFrom(expand("%:p:h"))."<CR><CR>"	|" open in dir of current file
+endif
 
 let g:repodirs = ['.git', '.hg', '.svn']
 
