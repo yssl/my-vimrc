@@ -311,6 +311,11 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""
 " local settings for file path
 let g:autosettings_settings = [
+	\[['*'],{
+		\'setLocals':[
+			\'textwidth=0',
+		\],
+	\}],
 	\[['*.cpp','*.c','*.h','*.hpp'],{
 		\'setLocals':[
 			\'expandtab',
