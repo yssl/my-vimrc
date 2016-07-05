@@ -391,7 +391,7 @@ let g:autosettings_settings = [
 			\'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post,
 		\],
 	\}],
-	\[['*/DMLpy/setup.py'],{
+	\[['*/DMLpy/setup.py','*/DMLcpp/*/*_py.cpp'],{
 		\'localMaps':[
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:silent Make<CR>'],
 		\],
@@ -914,6 +914,7 @@ let g:autocwd_patternwd_pairs = [
 	\['*.vim', '%:p:h'],
 	\['*.tex', '%:p:h'],
 	\['*/gallery-lite/*', '*REPO*'],
+	\['*/DMLcpp/*/*_py.cpp', '*REPO*/DMLpy'],
 	\['*/DMLcpp/*', '*REPO*/DMLcpp'],
 	\['*/DMLpy/*', '*REPO*/DMLpy'],
 	\['*dali*', '*REPO*'],
