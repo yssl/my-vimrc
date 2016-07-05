@@ -374,7 +374,7 @@ let g:autosettings_settings = [
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:silent Make<CR>'],
 		\],
 		\'setLocals':[
-			\'makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rbuild\ %\ &&\ setup.py\ build_ext'.s:makeprg_post,
+			\'makeprg='.s:makeprg_pre.'python\ -u\ setup.py\ build_ext'.s:makeprg_post,
 		\],
 	\}],
 	\[['*.py'],{
@@ -391,11 +391,12 @@ let g:autosettings_settings = [
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:silent Make<CR>'],
 		\],
 		\'setLocals':[
-			\'makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rbuild\ %\ &&\ setup.py\ build_ext'.s:makeprg_post,
+			\'makeprg='.s:makeprg_pre.'python\ -u\ setup.py\ build_ext'.s:makeprg_post,
 		\],
 	\}],
 \]
 
+			"\'makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rbuild\ %\ &&\ setup.py\ build_ext'.s:makeprg_post,
 
 " F9 : build & run
 " C-S-A-F9 : build all & run
