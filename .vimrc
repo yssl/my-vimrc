@@ -91,7 +91,9 @@ colorscheme mustang
 " vim options - common
 """""""""""""""""""""""""""""""""""""""""""""
 filetype plugin indent on
-syntax on
+
+syntax on    " syntax highlighting on
+set hlsearch " switch on highlighting the last used search pattern
 
 " The % key will switch between opening and closing brackets. By sourcing matchit.vim, the key can also switch among e.g. if/elsif/else/end, between opening and closing XML tags, and more. 
 runtime macros/matchit.vim
@@ -110,7 +112,11 @@ set guioptions-=r	"right scrollbar always
 set guioptions-=R	"right scrollbar
 set guioptions-=h	"bottom scrollsbar
 
-set history=50    " keep 50 lines of command line history
+set history=50 " keep 50 lines of command line history
+set ruler      " show the cursor position all the time
+set showcmd    " display incomplete commands
+set incsearch  " do incremental searching
+
 set fdm=indent    " code folding using indentation
 set ignorecase    " ignore case when search
 set noswapfile    " no swap file
@@ -124,7 +130,6 @@ let mapleader="," " change <leader> key
 """""""""""""""""""""""""""""""""""""""""""""
 " vim options - platform dependent
 """""""""""""""""""""""""""""""""""""""""""""
-
 if has('win32')
 	source $VIMRUNTIME/mswin.vim " Ctrl+V to paste on Windows
 	set guifont=Consolas:h12     " font
