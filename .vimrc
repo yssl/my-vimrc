@@ -374,14 +374,6 @@ let g:autosettings_settings = [
 			\},
 		\},
 	\}],
-	\[['*/DMLpy/*'],{
-		\'localMaps':[
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:silent Make<CR>'],
-		\],
-		\'setLocals':[
-			\'makeprg='.s:makeprg_pre.'python\ -u\ setup.py\ build_ext'.s:makeprg_post,
-		\],
-	\}],
 	\[['*.py'],{
 		\'localMaps':[
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:silent Make<CR>']
@@ -393,10 +385,8 @@ let g:autosettings_settings = [
 	\}],
 	\[['*/DMLpy/setup.py','*/DMLcpp/*/*_py.cpp'],{
 		\'localMaps':[
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:silent Make<CR>'],
-		\],
-		\'setLocals':[
-			\'makeprg='.s:makeprg_pre.'python\ -u\ setup.py\ build_ext'.s:makeprg_post,
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ setup.py\ build_ext'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ setup.py\ clean'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
 		\],
 	\}],
 \]
@@ -658,8 +648,8 @@ vnoremap <silent> # :<C-U>
 " quickfix
 call s:nnoreicmap('','<F2>',':call QuickfixFocusOrOpen()<CR>')
 call s:nnoreicmap('','<S-F2>',':cclose<CR>')
-call s:nnoreicmap('','<F8>',':VScnext<CR>')
-call s:nnoreicmap('','<S-F8>',':VScprev<CR>')
+call s:nnoreicmap('','<F8>',':VScnextc<CR>')
+call s:nnoreicmap('','<S-F8>',':VScprevc<CR>')
 call s:nnoreicmap('','<C-F8>',':call QuickfixFocusOrOpenError(1)<CR>')
 call s:nnoreicmap('','<C-S-F8>',':call QuickfixFocusOrOpenError(0)<CR>')
 call s:nnoreicmap('','<A-1>',':cold<CR>')
@@ -945,18 +935,13 @@ let g:vintsearch_includepatterns =
 		\'*.md','*.txt','*.tex','*.sh',
 		\'*.html','*.htm','*.doxy','*.doxy.in',
 		\'*file.list','*configure.ac','*Makefile.am','*.spec']
-
 "let g:vintsearch_includepatterns =
 	"\ ['*.c','*.cpp','*.h','*.hpp','*.inl']
-"let g:vintsearch_excludepatterns =
-	"\ ['*automated-tests*','*CMakeFiles*']
+let g:vintsearch_excludepatterns =
+	\ ['*automated-tests*','*release*']
 
 " QFEnter
 let g:qfenter_cc_cmd = 'VScc ##'
-let g:qfenter_cn_cmd = 'VScnext'
-let g:qfenter_cp_cmd = 'VScprev'
-let g:qfenter_cnext_map = ['<F8>']
-let g:qfenter_cprev_map = ['<S-F8>']
 "let g:qfenter_keep_quickfixfocus = {
 			"\'open':0,
 			"\'cnext':1,
@@ -964,9 +949,9 @@ let g:qfenter_cprev_map = ['<S-F8>']
 			"\}
 "let g:qfenter_enable_autoquickfix = 0
 
-" QFGrep
+" QFGrep - default mapping
 "let g:QFG_Grep = '<leader>g'
-"let g:QFG_GrepV = '<leader>i'
+"let g:QFG_GrepV = '<leader>v'
 "let g:QFG_Restore = '<leader>r'
 
 " fugitive
