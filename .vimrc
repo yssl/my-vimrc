@@ -135,7 +135,6 @@ if has('win32')
 	set guifont=Consolas:h12     " font
 	set backupdir=c:\\temp       " tmp backup
 	set clipboard=unnamed        " clipboard - use system clipboard
-	set shell=cmd.exe            " shell
 else
 	set guifont=Monospace\ 12    " font
 	set backupdir=/tmp           " tmp backup
