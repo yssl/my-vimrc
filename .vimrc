@@ -11,7 +11,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdcommenter'
 Plug 'AutoComplPop'
-Plug 'TeX-PDF'
+"Plug 'TeX-PDF'
 Plug 'a.vim'
 "Plug 'CSApprox'
 
@@ -182,17 +182,6 @@ augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""
 " AutoSettings.vim
-
-" build & run shortcut
-" F9 : build & run
-" C-S-A-F9 : build all & run
-" C-F9 : run
-" A-F9 : build only
-" S-F9 : debugger run (conquegdb)
-" F12 : toggle release/debug
-" A-S-F12 : clean
-" S-F12 : configure
-
 """""""""""""""""""""""""""""""""""""""""""""
 " default edit & build settings for all file types
 
@@ -268,6 +257,17 @@ endif
 
 """""""""""""""""""""""""""""""""""""""""""""
 " local settings for file path
+
+" build & run shortcut
+" F9 : build & run
+" C-S-A-F9 : build all & run
+" C-F9 : run
+" A-F9 : build only
+" S-F9 : debugger run (conquegdb)
+" F12 : toggle release/debug
+" A-S-F12 : clean
+" S-F12 : configure
+
 let g:autosettings_settings = [
 	\[['*'],{
 		\'setLocals':[
@@ -286,18 +286,6 @@ let g:autosettings_settings = [
 		\'setLocals':[
 			\'expandtab',
 			\'makeprg='.s:makeprg_pre.'%'.s:makeprg_post,
-		\],
-	\}],
-	\[['*.tex'],{
-		\'localMaps':[
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:BuildAndViewTexPdf<CR>:call QuickfixCWindowError()<CR><C-l><C-l>'],
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':w<CR>:BuildTexPdf<CR>:call QuickfixCWindowError()<CR><C-l>'],
-			\[['nnoremap'], '<Leader>fs', ':call Tex_ForwardSearchLaTeX()<CR>'],
-		\],
-		\'setLocals':[
-			\'wrap',
-			\'expandtab',
-			\'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post,
 		\],
 	\}],
 	\[['*.txt','*.md','*.html','*.htm'],{
@@ -349,6 +337,49 @@ let g:autosettings_settings = [
 	\}],
 \]
 
+if has('win32')
+	fun! OpenCurrentPDF()
+		exec '!start cmd /K "start '.fnamemodify(expand('%'), ":p:r").'.pdf && exit"'
+	endfun
+
+	call add(g:autosettings_settings,
+		\[['*.tex'],{
+			\'localMaps':[
+				\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:silent Make<CR>:call OpenCurrentPDF()<CR>'],
+				\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':w<CR>:silent Make<CR>'],
+				\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':w<CR>:call OpenCurrentPDF()<CR>'],
+				\[['nnoremap'], '<Leader>fs', ':call Tex_ForwardSearchLaTeX()<CR>'],
+			\],
+			\'setLocals':[
+				\'wrap',
+				\'expandtab',
+				\'makeprg='.s:makeprg_pre.'latexmk\ -pdf\ -latexoption=\"-synctex=1\"\ %'.s:makeprg_post,
+			\],
+		\}])
+else
+	function! Tex_ForwardSearchLaTeX()
+	let cmd = 'evince_forward_search ' . fnamemodify(Tex_GetMainFileName(), ":p:r") . '.pdf ' . line(".") . ' ' . expand("%:p")
+	let output = system(cmd)
+	endfunction
+
+	function! Tex_GetMainFileName()
+		return expand('%')
+	endfunction
+
+	call add(g:autosettings_settings,
+		\[['*.tex'],{
+			\'localMaps':[
+				\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:BuildAndViewTexPdf<CR>:call QuickfixCWindowError()<CR><C-l><C-l>'],
+				\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':w<CR>:BuildTexPdf<CR>:call QuickfixCWindowError()<CR><C-l>'],
+				\[['nnoremap'], '<Leader>fs', ':call Tex_ForwardSearchLaTeX()<CR>'],
+			\],
+			\'setLocals':[
+				\'wrap',
+				\'expandtab',
+			\],
+		\}])
+endif
+
 
 	"\[['*/dali*'],{
 		"\'setLocals':[
@@ -391,15 +422,6 @@ let g:autosettings_settings = [
 			"\},
 		"\},
 	"\}],
-
-function! Tex_ForwardSearchLaTeX()
-let cmd = 'evince_forward_search ' . fnamemodify(Tex_GetMainFileName(), ":p:r") . '.pdf ' . line(".") . ' ' . expand("%:p")
-let output = system(cmd)
-endfunction
-
-function! Tex_GetMainFileName()
-	return expand('%')
-endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""
 " key mappings
@@ -612,19 +634,17 @@ if has('win32')
 	nnoremap <Leader>tc :!start cmd<CR>	|" open in CWD
 	nnoremap <expr> <Leader>tf ":!start cmd /K \"cd /d ".expand("%:p:h")."\"<CR>"	|" open in dir of current file
 	nnoremap <expr> <Leader>tr ":!start cmd /K \"cd /d ".FindRepoDirFrom(expand("%:p:h"))."\"<CR>"	|" open in dir of current file
-else
-	" open gnome terminal
-	nnoremap <Leader>tc :!gnome-terminal<CR><CR>	|" open in CWD
-	nnoremap <expr> <Leader>tf ":!gnome-terminal --working-directory=".expand("%:p:h")."<CR><CR>"	|" open in dir of current file
-	nnoremap <expr> <Leader>tr ":!gnome-terminal --working-directory=".FindRepoDirFrom(expand("%:p:h"))."<CR><CR>"	|" open in dir of current file
-endif
 
-if has('win32')
 	" open explorer
 	nnoremap <expr> <Leader>fc ":silent !explorer ".getcwd()."<CR><CR>"	|" open in CWD
 	nnoremap <expr> <Leader>ff ":silent !explorer ".expand("%:p:h")."<CR><CR>"	|" open in dir of current file
 	nnoremap <expr> <Leader>fr ":silent !explorer ".FindRepoDirFrom(expand("%:p:h"))."<CR><CR>"	|" open in dir of current file
 else
+	" open gnome terminal
+	nnoremap <Leader>tc :!gnome-terminal<CR><CR>	|" open in CWD
+	nnoremap <expr> <Leader>tf ":!gnome-terminal --working-directory=".expand("%:p:h")."<CR><CR>"	|" open in dir of current file
+	nnoremap <expr> <Leader>tr ":!gnome-terminal --working-directory=".FindRepoDirFrom(expand("%:p:h"))."<CR><CR>"	|" open in dir of current file
+
 	" open nautilus file explorer
 	nnoremap <expr> <Leader>fc ":!nautilus ".getcwd()."<CR><CR>"	|" open in CWD
 	nnoremap <expr> <Leader>ff ":!nautilus ".expand("%:p:h")."<CR><CR>"	|" open in dir of current file
