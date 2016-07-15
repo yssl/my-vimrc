@@ -88,69 +88,54 @@ colorscheme mustang
 "colorscheme seoul256
 
 """""""""""""""""""""""""""""""""""""""""""""
-" vim options
+" vim options - common
 """""""""""""""""""""""""""""""""""""""""""""
 filetype plugin indent on
 syntax on
 
-source $VIMRUNTIME/vimrc_example.vim
 " The % key will switch between opening and closing brackets. By sourcing matchit.vim, the key can also switch among e.g. if/elsif/else/end, between opening and closing XML tags, and more. 
 runtime macros/matchit.vim
 
-if has('win32')	|" Ctrl+V to paste on Windows
-	source $VIMRUNTIME/mswin.vim
-endif
-
-set fileencodings=utf-8
-
-let g:vimwiki_file_exts='pdf,chm'
-
-"guioptions
-set guioptions-=T	|"remove toolbar
-set guioptions-=m	|"remove menubar
-set guioptions-=l	|"left scrollbar always
-set guioptions-=L	|"left scrollbar
-set guioptions-=r	|"right scrollbar always
-set guioptions-=R	|"right scrollbar
-set guioptions-=h	|"bottom scrollsbar
-
-set t_Co=256
-
-" font
-if has('win32')
-	set guifont=Consolas:h12
-else
-	set guifont=Monospace\ 12
-endif
-
-" search option
-set ignorecase
-
-" swap, backup files - no swap, tmp backup
-set noswapfile
-if has('win32')
-	set backupdir=c:\\temp
-else
-	set backupdir=/tmp
-endif
-
-" clipboard - use system clipboard
-if has('win32')
-	set clipboard=unnamed
-else
-	set clipboard=unnamedplus
-endif
-
 " ctags - search 'tag' file from current directory to root directory
-" recursively (; is the key)
+" recursively (';' is the key!)
 set tags=./tags;,tags;
 set notagbsearch
 
-" code folding using indentation
-set fdm=indent
+" guioptions
+set guioptions-=T	"remove toolbar
+set guioptions-=m	"remove menubar
+set guioptions-=l	"left scrollbar always
+set guioptions-=L	"left scrollbar
+set guioptions-=r	"right scrollbar always
+set guioptions-=R	"right scrollbar
+set guioptions-=h	"bottom scrollsbar
 
-" change <leader> key
-let mapleader=","
+set history=50    " keep 50 lines of command line history
+set fdm=indent    " code folding using indentation
+set ignorecase    " ignore case when search
+set noswapfile    " no swap file
+let mapleader="," " change <leader> key
+
+" not used anymore
+"source $VIMRUNTIME/vimrc_example.vim
+"set t_Co=256
+"set fileencodings=utf-8
+
+"""""""""""""""""""""""""""""""""""""""""""""
+" vim options - platform dependent
+"""""""""""""""""""""""""""""""""""""""""""""
+
+if has('win32')
+	source $VIMRUNTIME/mswin.vim " Ctrl+V to paste on Windows
+	set guifont=Consolas:h12     " font
+	set backupdir=c:\\temp       " tmp backup
+	set clipboard=unnamed        " clipboard - use system clipboard
+	set shell=cmd.exe            " shell
+else
+	set guifont=Monospace\ 12    " font
+	set backupdir=/tmp           " tmp backup
+	set clipboard=unnamedplus    " clipboard - use system clipboard
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""
 " common functions
@@ -160,37 +145,6 @@ fun! s:nnoreicmap(option, shortcut, command)
 	exec 'imap '.a:option.' '.a:shortcut.' <Esc>'.a:shortcut
 	exec 'cmap '.a:option.' '.a:shortcut.' <Esc>'.a:shortcut
 endfun
-
-fun! StartDebugger()
-	let token = split(system('make '.g:build_char.'printbin'), '\n')
-	echo token
-	if len(token) > 1
-		let binpath = token[1]
-		exec ':ConqueGdb '.binpath
-	endif
-endfun
-
-let g:release_build=0
-let g:build_char='d'
-fun! PrintBuildMode()
-	if g:release_build
-		echom 'Build mode: Release'
-	else
-		echom 'Build mode: Debug'
-	endif
-endfun
-fun! ToggleBuildMode()
-	let g:release_build=!g:release_build
-	if g:release_build
-		let g:build_char='r'
-	else
-		let g:build_char='d'
-	endif
-	exec ':e'
-	call PrintBuildMode()
-endfun
-call s:nnoreicmap('', '<F12>', ':call ToggleBuildMode()<CR>')
-call s:nnoreicmap('', '<C-F12>', ':call PrintBuildMode()<CR>')
 
 """""""""""""""""""""""""""""""""""""""""""""
 " autocmds
@@ -236,7 +190,7 @@ augroup END
 " S-F12 : configure
 
 """""""""""""""""""""""""""""""""""""""""""""
-" default settings for each laguange
+" default edit & build settings for all file types
 
 " text wrapping
 set nowrap
@@ -391,47 +345,6 @@ let g:autosettings_settings = [
 	\}],
 \]
 
-			"\'makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rbuild\ %\ &&\ setup.py\ build_ext'.s:makeprg_post,
-
-" F9 : build & run
-" C-S-A-F9 : build all & run
-" A-F9 : build only
-" C-F9 : run
-" S-F9 : debugger run (conquegdb)
-" F12 : toggle release/debug
-" A-S-F12 : clean
-" S-F12 : configure
-
-"let g:autosettings_for_build = [
-	"\[['*/DMLcpp/*'],{
-		"\'configNames':['release','debug'],
-		"\'defaultConfigName':'release',
-		"\'configs':{
-			"\'release':{
-				"\'localMaps':[
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':Make rbuildrun; echo "END:0::"<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':Make rbuild; echo "END:0::"<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':Make rrun; echo "END:0::"<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':Make clean; echo "END:0::"<CR>'],
-				"\],
-				"\'localMapsExpr':[
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<S-F9>', "':ConqueGdb '.split(system('make rprintbin'),'\n')[1].'<CR>'"],
-				"\],
-			"\},
-			"\'debug':{
-				"\'localMaps':[
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':Make dbuildrun; echo "END:0::"<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':Make dbuild; echo "END:0::"<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':Make drun; echo "END:0::"<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':Make clean; echo "END:0::"<CR>'],
-				"\],
-				"\'localMapsExpr':[
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<S-F9>', "':ConqueGdb '.split(system('make dprintbin'),'\n')[1].'<CR>'"],
-				"\],
-			"\},
-		"\},
-	"\}],
-"\]
 
 	"\[['*/dali*'],{
 		"\'setLocals':[
@@ -475,14 +388,6 @@ let g:autosettings_settings = [
 		"\},
 	"\}],
 
-	"autocmd BufEnter *.tex exec 'nnoremap <buffer> <expr> <Leader>sc ":!aspell --lang=en --mode=tex -c ".expand("%:p")."\<CR>"'
-
-	"" build & run shortcut
-	"autocmd BufEnter *.cpp\|.c\|.h\|.hpp exec "call s:nnoreicmap('<buffer>','<F9>',':Make ".g:build_char."buildrun; echo \"END:0::\"<CR>')"
-	"autocmd BufEnter *.cpp\|.c\|.h\|.hpp exec "call s:nnoreicmap('<buffer>','<C-F9>',':Make ".g:build_char."run; echo \"END:0::\"<CR>')"
-	"autocmd BufEnter *.cpp\|.c\|.h\|.hpp exec "call s:nnoreicmap('<buffer>','<A-F9>',':Make ".g:build_char."build; echo \"END:0::\"<CR>')"
-	"autocmd BufEnter *.cpp\|.c\|.h\|.hpp exec "call s:nnoreicmap('<buffer>','<S-F9>',':call StartDebugger()<CR>')"
-
 function! Tex_ForwardSearchLaTeX()
 let cmd = 'evince_forward_search ' . fnamemodify(Tex_GetMainFileName(), ":p:r") . '.pdf ' . line(".") . ' ' . expand("%:p")
 let output = system(cmd)
@@ -495,7 +400,6 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""
 " key mappings
 """""""""""""""""""""""""""""""""""""""""""""
-
 if !has('gui_running')
 	" to recognize alt key in gnome terminal
 	" http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
