@@ -339,7 +339,7 @@ let g:autosettings_settings = [
 
 if has('win32')
 	fun! OpenCurrentPDF()
-		exec '!start cmd /K "start '.fnamemodify(expand('%'), ":p:r").'.pdf && exit"'
+		exec 'silent !start cmd /K "start '.fnamemodify(expand('%'), ":p:r").'.pdf && exit"'
 	endfun
 
 	call add(g:autosettings_settings,
