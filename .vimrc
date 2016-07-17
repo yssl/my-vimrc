@@ -131,10 +131,13 @@ let mapleader="," " change <leader> key
 " vim options - platform dependent
 """""""""""""""""""""""""""""""""""""""""""""
 if has('win32')
-	source $VIMRUNTIME/mswin.vim " Ctrl+V to paste on Windows
-	set guifont=Consolas:h12     " font
-	set backupdir=c:\\temp       " tmp backup
-	set clipboard=unnamed        " clipboard - use system clipboard
+	" Ctrl+V to paste in command and insert mode on Windows. From $VIMRUNTIME/mswin.vim
+	cmap <C-V> <C-R>+
+	exe 'inoremap <script> <C-V> <C-G>u' . paste#paste_cmd['i']
+
+	set guifont=Consolas:h12 " font
+	set backupdir=c:\\temp   " tmp backup
+	set clipboard=unnamed    " clipboard - use system clipboard
 else
 	set guifont=Monospace\ 12    " font
 	set backupdir=/tmp           " tmp backup
