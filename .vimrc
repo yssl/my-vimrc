@@ -330,6 +330,7 @@ let g:autosettings_settings = [
 		\'setLocals':[
 			\'expandtab',
 			\'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post,
+			\'errorformat=ERROREND\ ',
 		\],
 	\}],
 	\[['*/DMLpy/setup.py','*/DMLcpp/*/*_py.cpp'],{
