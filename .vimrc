@@ -122,6 +122,9 @@ set ignorecase    " ignore case when search
 set noswapfile    " no swap file
 let mapleader="," " change <leader> key
 
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+
 " not used anymore
 "source $VIMRUNTIME/vimrc_example.vim
 "set t_Co=256
