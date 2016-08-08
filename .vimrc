@@ -207,6 +207,9 @@ set makeprg=stdbuf\ -i0\ -o0\ -e0\ make\ %
 set errorformat+=ERROREND
 set errorformat+=ERROREND\ 
 
+" default: blank,buffers,curdir,folds,help,options,tabpages,winsize
+set sessionoptions=curdir,folds,help,options,resize,tabpages,winpos,winsize
+
 """""""""""""""""""""""""""""""""""""""""""""
 " different makeprg for each platform
 
