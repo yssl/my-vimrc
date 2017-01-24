@@ -62,8 +62,8 @@ call plug#end()
 "easy
 "colorscheme obsidian
 "colorscheme jellybeans
-"colorscheme xoria256
-colorscheme mustang
+colorscheme xoria256
+"colorscheme mustang
 "colorscheme wombat
 "colorscheme vydark
 "colorscheme sorcerer
@@ -281,6 +281,7 @@ let g:autosettings_settings = [
 	\[['*'],{
 		\'setLocals':[
 			\'textwidth=0',
+			\'encoding=cp949',
 		\],
 	\}],
 	\[['*.cpp','*.c','*.h','*.hpp'],{
@@ -337,6 +338,12 @@ let g:autosettings_settings = [
 		\'localMaps':[
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ setup.py\ build_ext'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ setup.py\ clean'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
+		\],
+	\}],
+	\[['*kinectwalker.tex', '*kinectwalker_utf8.tex', '*relatedwork.tex', '*-utf8.tex'],{
+		\'setLocals':[
+			\'encoding=utf8',
+			\'fileencoding=utf8',
 		\],
 	\}],
 \]
@@ -897,7 +904,7 @@ let g:vintsearch_includepatterns =
 "let g:vintsearch_includepatterns =
 	"\ ['*.c','*.cpp','*.h','*.hpp','*.inl']
 let g:vintsearch_excludepatterns =
-	\ ['*automated-tests*','*release*']
+	\ ['*automated-tests*','*release*','*optresult*', '*evalresult*', '*video*']
 
 " QFEnter
 let g:qfenter_cc_cmd = 'VScc ##'
