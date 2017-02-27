@@ -818,7 +818,7 @@ else
 endif
 
 " CtrlP
-" Disable default Alt+F10 : CCSM, go to Desktop -> Ubuntu Unity Plugin -> Behaviour to disable the “open panel menu” key.
+" Disable default Alt+F10 : CCSM, go to Desktop -> Ubuntu Unity Plugin -> Behaviour to disable the 'open panel menu' key.
 let ctrlp_keys = ['F10', 'F7']
 let g:ctrlp_map = '<'.ctrlp_keys[0].'>'
 for ctrlp_key in ctrlp_keys
