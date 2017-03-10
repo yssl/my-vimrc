@@ -908,11 +908,6 @@ let g:vintsearch_excludepatterns =
 
 " QFEnter
 let g:qfenter_cc_cmd = 'VScc ##'
-"let g:qfenter_keep_quickfixfocus = {
-			"\'open':0,
-			"\'cnext':1,
-			"\'cprev':1,
-			"\}
 "let g:qfenter_enable_autoquickfix = 0
 
 " QFGrep - default mapping
