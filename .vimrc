@@ -340,7 +340,7 @@ let g:autosettings_settings = [
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ setup.py\ clean'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
 		\],
 	\}],
-	\[['*kinectwalker.tex', '*kinectwalker_utf8.tex', '*relatedwork.tex', '*-utf8.tex'],{
+	\[['*utf8.tex', '*utf.tex'],{
 		\'setLocals':[
 			\'encoding=utf8',
 			\'fileencoding=utf8',
