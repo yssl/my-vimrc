@@ -303,6 +303,16 @@ let g:autosettings_settings = [
 			\'wrap',
 		\],
 	\}],
+	\[['*.py'],{
+		\'localMaps':[
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:silent Make<CR>']
+		\],
+		\'setLocals':[
+			\'expandtab',
+			\'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post,
+			\'errorformat=ERROREND\ ',
+		\],
+	\}],
 	\[['*/DMLcpp/*'],{
 		\'buildConfigNames':['release','debug'],
 		\'buildConfigs':{
@@ -323,16 +333,6 @@ let g:autosettings_settings = [
 				\],
 			\},
 		\},
-	\}],
-	\[['*.py'],{
-		\'localMaps':[
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:silent Make<CR>']
-		\],
-		\'setLocals':[
-			\'expandtab',
-			\'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post,
-			\'errorformat=ERROREND\ ',
-		\],
 	\}],
 	\[['*/DMLpy/setup.py','*/DMLcpp/*/*_py.cpp'],{
 		\'localMaps':[
@@ -872,6 +872,8 @@ let g:autocwd_patternwd_pairs = [
 	\['*.vim', '%:p:h'],
 	\['*.tex', '%:p:h'],
 	\['*/gallery-lite/*', '*REPO*'],
+	\['*/DMLcpp/ExternalLibraries/VirtualPhysics/*', '*REPO*/DMLcpp/ExternalLibraries/VirtualPhysics/'],
+	\['*/DMLcpp/ExternalLibraries/GEAR/*', '*REPO*/DMLcpp/ExternalLibraries/GEAR/'],
 	\['*/DMLcpp/*/*_py.cpp', '*REPO*/DMLpy'],
 	\['*/DMLcpp/*', '*REPO*/DMLcpp'],
 	\['*/DMLpy/*', '*REPO*/DMLpy'],
