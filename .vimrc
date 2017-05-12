@@ -346,6 +346,14 @@ let g:autosettings_settings = [
 			\'fileencoding=utf8',
 		\],
 	\}],
+	\[['*/dart/*'],{
+		\'localMaps':[
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rbuildrun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rbuild\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rrun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rclean\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
+		\],
+	\}],
 \]
 
 if has('win32')
@@ -462,33 +470,33 @@ endif
 	"\}],
 
 """""""""""""""""""""""""""""""""""""""""""""
-" key mappings
+" key mappings - not necessary for xterm
 """""""""""""""""""""""""""""""""""""""""""""
-if !has('gui_running')
-	" to recognize alt key in gnome terminal
-	" http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
-	function! RegisterAltMaps(start_ascii, end_ascii)
-		let n=a:start_ascii
-		while n <= a:end_ascii
-		  let c = nr2char(n)
-		  if c==#'"'
-			  let c = '\'.c
-		  elseif c==#'>' || c==#'|'
-			  let n = n+1
-			  continue
-		  endif
-		  exec "set <A-".c.">=\e".c
-		  exec "imap \e".c." <A-".c.">"
-		  let n = n+1
-		endw
-	endfunction
-	"call RegisterAltMaps(48, 57)	|"0 to 9
-	call RegisterAltMaps(92, 93)	|"\,]
-	call RegisterAltMaps(45, 61)	|"-,=
-	call RegisterAltMaps(40, 41)	|"(,)
-	"call RegisterAltMaps(97, 122)	|"a to z - now vim-fixkey do this.
-	set timeout ttimeoutlen=50
-endif
+"if !has('gui_running')
+	"" to recognize alt key in gnome terminal
+	"" http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
+	"function! RegisterAltMaps(start_ascii, end_ascii)
+		"let n=a:start_ascii
+		"while n <= a:end_ascii
+		  "let c = nr2char(n)
+		  "if c==#'"'
+			  "let c = '\'.c
+		  "elseif c==#'>' || c==#'|'
+			  "let n = n+1
+			  "continue
+		  "endif
+		  "exec "set <A-".c.">=\e".c
+		  "exec "imap \e".c." <A-".c.">"
+		  "let n = n+1
+		"endw
+	"endfunction
+	""call RegisterAltMaps(48, 57)	|"0 to 9
+	"call RegisterAltMaps(92, 93)	|"\,]
+	"call RegisterAltMaps(45, 61)	|"-,=
+	"call RegisterAltMaps(40, 41)	|"(,)
+	""call RegisterAltMaps(97, 122)	|"a to z - now vim-fixkey do this.
+	"set timeout ttimeoutlen=50
+"endif
 
 """""""""""""""""""""""""""""""""""""""""""""
 " useful default mappings
@@ -878,6 +886,9 @@ let g:autocwd_patternwd_pairs = [
 	\['*/DMLcpp/*', '*REPO*/DMLcpp'],
 	\['*/DMLpy/*', '*REPO*/DMLpy'],
 	\['*dali*', '*REPO*'],
+	\['*/dart/examples/*', '*REPO*/examples'],
+	\['*/dart/tutorials/*', '*REPO*/tutorials'],
+	\['*/dart/*', '*REPO*'],
 	\]
 
 " VIntSearch
