@@ -839,8 +839,10 @@ for ctrlp_key in ctrlp_keys
 endfor
 
 " NerdTree
-let g:NERDTreeDirArrowCollapsible = '-'
-let g:NERDTreeDirArrowExpandable = '+'
+if has('unix')
+	let g:NERDTreeDirArrowCollapsible = '-'
+	let g:NERDTreeDirArrowExpandable = '+'
+endif
 let NERDTreeShowBookmarks=1
 call s:nnoreicmap('','<F3>',':call NERDTreeFocusOrOpen()<CR>')
 call s:nnoreicmap('','<S-F3>',':NERDTreeClose<CR>')
