@@ -277,39 +277,29 @@ endif
 " S-F12 : configure
 
 let g:autosettings_settings = [
-	\[['*'],{
-		\'setLocals':[
-			\'textwidth=0',
-			\'encoding=cp949',
-		\],
-	\}],
-	\[['*.cpp','*.c','*.h','*.hpp'],{
+	\[['*.py','*.cpp','*.c','*.h','*.hpp','*.bat'],{
 		\'setLocals':[
 			\'expandtab',
 		\],
 	\}],
-	\[['*.bat'],{
-		\'localMaps':[
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:silent Make<CR>']
-		\],
-		\'setLocals':[
-			\'expandtab',
-			\'makeprg='.s:makeprg_pre.'%'.s:makeprg_post,
-		\],
-	\}],
-	\[['*.txt','*.md','*.html','*.htm'],{
+	\[['*.tex','*.txt','*.md','*.html','*.htm'],{
 		\'setLocals':[
 			\'wrap',
 		\],
 	\}],
-	\[['*.py'],{
+	\[['*.py','*.bat'],{
 		\'localMaps':[
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:silent Make<CR>']
 		\],
+	\}],
+	\[['*.py'],{
 		\'setLocals':[
-			\'expandtab',
 			\'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post,
-			\'errorformat=ERROREND\ ',
+		\],
+	\}],
+	\[['*.bat'],{
+		\'setLocals':[
+			\'makeprg='.s:makeprg_pre.'%'.s:makeprg_post,
 		\],
 	\}],
 	\[['*/DMLcpp/*'],{
@@ -337,12 +327,6 @@ let g:autosettings_settings = [
 		\'localMaps':[
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ setup.py\ build_ext'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ setup.py\ clean'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-		\],
-	\}],
-	\[['*utf8.tex', '*utf.tex'],{
-		\'setLocals':[
-			\'encoding=utf8',
-			\'fileencoding=utf8',
 		\],
 	\}],
 	\[['*/dart/*'],{
@@ -983,3 +967,4 @@ for i in range(len(vim.windows)):
 vim.command('return 1' if exist else 'return 0')
 EOF
 endfunction
+
