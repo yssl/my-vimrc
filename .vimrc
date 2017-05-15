@@ -204,7 +204,6 @@ set noexpandtab
 set makeprg=stdbuf\ -i0\ -o0\ -e0\ make\ %
 
 " errorformat to go to the last line ("ERROREND" print out)
-set errorformat+=ERROREND
 set errorformat+=ERROREND\ 
 
 " default: blank,buffers,curdir,folds,help,options,tabpages,winsize
@@ -223,8 +222,8 @@ if has('win32')
 	"""""""""""""""""""""""""""""""""""""""""
 	" new windows version using GnuWin CoreUtils tee (http://gnuwin32.sourceforge.net/packages.html#Setup)
 	" : non-blocking make, result are displayed in quickfix after program is finished.
-	" unbuffered output should be done by each makeprg, because ms windows inherently does not have something like 'stdbuf'
-	" for example, python -u
+	" unbuffered output should be done by each makeprg, because MS windows inherently does not have something like 'stdbuf'.
+	" for example, use 'python -u' for a python script
 
 	" temp file to write stdout of program
 	let s:tempfile = tempname()
@@ -257,11 +256,11 @@ else
 	" : no delay, unbuffered screen output
 
 	let s:makeprg_pre = 'stdbuf\ -i0\ -o0\ '
-	let s:makeprg_post = ';\ echo\ ERROREND'
+	let s:makeprg_post = ';\ echo\ \"ERROREND\ \"'
 
-	" 'makeprg='.s:makeprg_pre.'python\ %'.s:makeprg_post
+	" 'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post
 	" ->
-	" stdbuf -i0 -o0 python test.py; echo ERROREND
+	" stdbuf -i0 -o0 python -u test.py; echo ERROREND
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""
@@ -984,4 +983,3 @@ for i in range(len(vim.windows)):
 vim.command('return 1' if exist else 'return 0')
 EOF
 endfunction
-
