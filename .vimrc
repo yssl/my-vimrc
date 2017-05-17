@@ -880,7 +880,7 @@ let g:autocwd_patternwd_pairs = [
 	\['*/DMLcpp/*', '*REPO*/DMLcpp'],
 	\['*/DMLpy/*', '*REPO*/DMLpy'],
 	\['*dali*', '*REPO*'],
-	\['*/dart/*', '*REPO*'],
+	\['*/dart*/*', '*REPO*'],
 	\]
 
 " VIntSearch
