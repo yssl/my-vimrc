@@ -648,7 +648,8 @@ function! QuickfixFocusOrOpenError(isNext)
 	endif
 endfunction
 
-" Open Quickfix if there is error and jump to the last error
+" Open Quickfix if there are errors and jump to the last error and return the focus to the previously focused window again.
+" If there is no error, Quickfix window is not opened and the editing window still keeps the focus.
 function! QuickfixCWindowError()
 	botright cwindow
 	execute "silent! cla"
@@ -976,4 +977,3 @@ for i in range(len(vim.windows)):
 vim.command('return 1' if exist else 'return 0')
 EOF
 endfunction
-
