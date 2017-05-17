@@ -254,6 +254,8 @@ else
 	let s:makeprg_pre = 'stdbuf\ -i0\ -o0\ '
 
 	" use vim's server feature to call :QuickfixCWindowError command to move focus to the previously focused window
+	" you need to enable servername feature for non-GUI vim
+	" refer http://vim.wikia.com/wiki/Enable_servername_capability_in_vim/xterm
 	let s:makeprg_post = ';\ echo\ \"ERROREND\ \";\ vim\ --servername\ '.v:servername.'\ --remote-send\ :QuickfixCWindowError\\<CR\\>'
 
 	" 'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post
