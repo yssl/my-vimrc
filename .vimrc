@@ -232,10 +232,6 @@ if has('win32')
 	let s:makeprg_pre = 'start\ cmd\ /c\ \"('
 	let s:makeprg_post = '\ &\ echo\ ERROREND)\ 2>&1\ \\|\ tee\ '.s:tempfile.'\ &\ gvim\ --server-name\ '.v:servername.'\ --remote-send\ :FillQuickfixWithTempFile^<CR^>\"'
 
-	"" for hangul
-	"let s:makeprg_pre = 'start\ cmd\ /k\ \"('
-	"let s:makeprg_post = '\ &\ echo\ ERROREND)\ 2>&1\"'
-	
 	" 'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post
 	" ->
 	" 'makeprg=start\ cmd\ /c\ \"(python\ -u\ %\ &\ echo\ ERROREND)\ 2>&1\ \\|\ tee\ '.s:tempfile.'\ &\ gvim\ --server-name\ '.v:servername.'\ --remote-send\ :FillQuickfixWithTempFile^<CR^>\"'
@@ -253,10 +249,19 @@ if has('win32')
 else
 	"""""""""""""""""""""""""""""""""""""""""
 	" linux version
-	" : no delay, unbuffered screen output
+	" : no delay, unbuffered screen output for any program
 
 	let s:makeprg_pre = 'stdbuf\ -i0\ -o0\ '
-	let s:makeprg_post = ';\ echo\ \"ERROREND\ \"'
+
+	" use vim's server feature to call :QuickfixCWindowError command to move focus to the previously focused window
+	let s:makeprg_post = ';\ echo\ \"ERROREND\ \";\ vim\ --servername\ '.v:servername.'\ --remote-send\ :QuickfixCWindowError\\<CR\\>'
+
+	" 'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post
+	" ->
+	" stdbuf -i0 -o0 python -u test.py; echo ERROREND
+
+	"" a little inconvenient version - window focus will be still on the quickfix window when building is done.
+	"let s:makeprg_post = ';\ echo\ \"ERROREND\ \"'
 
 	" 'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post
 	" ->
@@ -329,7 +334,7 @@ let g:autosettings_settings = [
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ setup.py\ clean'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
 		\],
 	\}],
-	\[['*/dart/*'],{
+	\[['*/dart*/*'],{
 		\'localMaps':[
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rbuildrun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rbuild\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
@@ -650,6 +655,8 @@ function! QuickfixCWindowError()
 		wincmd p
 	endif
 endfunction
+
+command! QuickfixCWindowError call QuickfixCWindowError()
 
 """""""""""""""""""""""""""""""""""""""""""""
 " leader mappings
