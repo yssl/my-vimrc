@@ -166,6 +166,11 @@ endfun
 augroup mygroup
 	autocmd!
 
+	" Without this line, following makeprg_post results in open a new buffer named "<ESC>:QuickfixCWindowError<CR>" on Ubuntu.
+	" Don't know why, but figured out sourcing .vimrc one time prevents such behavior.
+	" let s:makeprg_post = ';\ echo\ \"ERROREND\ \";\ vim\ --servername\ '.v:servername.'\ --remote-send\ \\<ESC\\>:QuickfixCWindowError\\<CR\\>'
+	autocmd VimEnter * source $MYVIMRC
+
 	" disable auto commenting with new line
 	autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
