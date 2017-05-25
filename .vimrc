@@ -230,13 +230,13 @@ if has('win32')
 	"let s:tempfile = 'c:/Users/yoonsang/temp.txt'
 
 	let s:makeprg_pre = 'start\ cmd\ /c\ \"('
-	let s:makeprg_post = '\ &\ echo\ ERROREND)\ 2>&1\ \\|\ tee\ '.s:tempfile.'\ &\ gvim\ --server-name\ '.v:servername.'\ --remote-send\ :FillQuickfixWithTempFile^<CR^>\"'
+	let s:makeprg_post = '\ &\ echo\ ERROREND)\ 2>&1\ \\|\ tee\ '.s:tempfile.'\ &\ gvim\ --server-name\ '.v:servername.'\ --remote-send\ ^<ESC^>:FillQuickfixWithTempFile^<CR^>\"'
 
 	" 'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post
 	" ->
-	" 'makeprg=start\ cmd\ /c\ \"(python\ -u\ %\ &\ echo\ ERROREND)\ 2>&1\ \\|\ tee\ '.s:tempfile.'\ &\ gvim\ --server-name\ '.v:servername.'\ --remote-send\ :FillQuickfixWithTempFile^<CR^>\"'
+	" 'makeprg=start\ cmd\ /c\ \"(python\ -u\ %\ &\ echo\ ERROREND)\ 2>&1\ \\|\ tee\ '.s:tempfile.'\ &\ gvim\ --server-name\ '.v:servername.'\ --remote-send\ ^<ESC^>:FillQuickfixWithTempFile^<CR^>\"'
 	" ->
-	" start cmd /c "(python -u test.py & echo ERROREND) 2>&1 | tee temp.txt & gvim --server-name GVIM --remote-send :FillQuickfixWithTempFile^<CR^>"
+	" start cmd /c "(python -u test.py & echo ERROREND) 2>&1 | tee temp.txt & gvim --server-name GVIM --remote-send ^<ESC^>:FillQuickfixWithTempFile^<CR^>"
 
 	func! s:FillQuickfixWithTempFile()
 		exec 'cgetfile '.s:tempfile
@@ -250,24 +250,23 @@ else
 	"""""""""""""""""""""""""""""""""""""""""
 	" linux version
 	" : no delay, unbuffered screen output for any program
-
 	let s:makeprg_pre = 'stdbuf\ -i0\ -o0\ '
 
 	" use vim's server feature to call :QuickfixCWindowError command to move focus to the previously focused window
 	" you need to enable servername feature for non-GUI vim
 	" refer http://vim.wikia.com/wiki/Enable_servername_capability_in_vim/xterm
-	let s:makeprg_post = ';\ echo\ \"ERROREND\ \";\ vim\ --servername\ '.v:servername.'\ --remote-send\ :QuickfixCWindowError\\<CR\\>'
+	let s:makeprg_post = ';\ echo\ \"ERROREND\ \";\ vim\ --servername\ '.v:servername.'\ --remote-send\ \\<ESC\\>:QuickfixCWindowError\\<CR\\>'
 
 	" 'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post
 	" ->
-	" stdbuf -i0 -o0 python -u test.py; echo ERROREND
+	" stdbuf -i0 -o0 python -u test.py; echo ERROREND ; vim --servername VIM --remote-send <ESC>::QuickfixCWindowError<CR>
 
 	"" a little inconvenient version - window focus will be still on the quickfix window when building is done.
 	"let s:makeprg_post = ';\ echo\ \"ERROREND\ \"'
 
 	" 'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post
 	" ->
-	" stdbuf -i0 -o0 python -u test.py; echo ERROREND
+	" stdbuf -i0 -o0 python -u test.py; echo ERROREND 
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""
@@ -977,3 +976,4 @@ for i in range(len(vim.windows)):
 vim.command('return 1' if exist else 'return 0')
 EOF
 endfunction
+
