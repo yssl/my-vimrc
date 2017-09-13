@@ -1,0 +1,2 @@
+autocmd VimEnter * silent !./screenkey.sh
+autocmd VimLeave * !pkill screenkey
