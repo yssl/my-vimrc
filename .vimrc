@@ -1,8 +1,10 @@
 """""""""""""""""""""""""""""""""""""""""""""
 " plugins 
 """""""""""""""""""""""""""""""""""""""""""""
-set nocompatible
-filetype off
+
+" delete after checking
+"set nocompatible
+"filetype off
 
 call plug#begin()
 
@@ -92,8 +94,11 @@ colorscheme xoria256
 """""""""""""""""""""""""""""""""""""""""""""
 filetype plugin indent on
 
+" search, highlighting
 syntax on    " syntax highlighting on
 set hlsearch " switch on highlighting the last used search pattern
+set incsearch  " do incremental searching
+set ignorecase    " ignore case when search
 
 " The % key will switch between opening and closing brackets. By sourcing matchit.vim, the key can also switch among e.g. if/elsif/else/end, between opening and closing XML tags, and more. 
 runtime macros/matchit.vim
@@ -115,20 +120,13 @@ set guioptions-=h	"bottom scrollsbar
 set history=50 " keep 50 lines of command line history
 set ruler      " show the cursor position all the time
 set showcmd    " display incomplete commands
-set incsearch  " do incremental searching
 
 set fdm=indent    " code folding using indentation
-set ignorecase    " ignore case when search
 set noswapfile    " no swap file
 let mapleader="," " change <leader> key
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
-
-" not used anymore
-"source $VIMRUNTIME/vimrc_example.vim
-"set t_Co=256
-"set fileencodings=utf-8
 
 """""""""""""""""""""""""""""""""""""""""""""
 " vim options - platform dependent
@@ -393,105 +391,6 @@ else
 		\}])
 endif
 
-	"\[['*/DMLcpp/*'],{
-		"\'buildConfigNames':['release','debug'],
-		"\'buildConfigs':{
-			"\'release':{
-				"\'localMaps':[
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rbuildrun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rbuild\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rrun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rclean\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-				"\],
-				"\'localMapsExpr':[
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<S-F9>', "':ConqueGdb '.split(system('make rprintbin'),'\n')[1].'<CR>'"],
-				"\],
-			"\},
-			"\'debug':{
-				"\'localMaps':[
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ dbuildrun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ dbuild\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ drun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ dclean\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-				"\],
-				"\'localMapsExpr':[
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<S-F9>', "':ConqueGdb '.split(system('make dprintbin'),'\n')[1].'<CR>'"],
-				"\],
-			"\},
-		"\},
-	"\}],
-
-	"\[['*/dali*'],{
-		"\'setLocals':[
-			"\'tabstop=2',
-			"\'shiftwidth=2',
-			"\'expandtab',
-		"\],
-	"\}],
-	"\[['*/homescreen*','*/itc*','*/online-doc*'],{
-		"\'setLocals':[
-			"\'tabstop=2',
-			"\'shiftwidth=2',
-			"\'noexpandtab',
-		"\],
-	"\}],
-	"\[['*/dali*'],{
-		"\'configNames':['release','debug'],
-		"\'defaultConfigName':'release',
-		"\'commonConfig':{
-			"\'localMapsExpr':[
-				"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', "':Dispatch makedali.py install2run '.expand('%:p').'; echo \"END:0::\"<CR>'"],
-				"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', "':Dispatch makedali.py run '.expand('%:p').'; echo \"END:0::\"<CR>'"],
-				"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<S-F9>', "':ConqueGdb '.$DESKTOP_PREFIX.'/bin/'.GetDaliRunFile(expand('%:p')).'; echo \"END:0::\"<CR>'"],
-				"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', "':Dispatch makedali.py install '.expand('%:p').'; echo \"END:0::\"<CR>'"],
-				"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', "':Dispatch makedali.py clean '.expand('%:p').'; echo \"END:0::\"<CR>'"],
-			"\],
-		"\},
-		"\'configs':{
-			"\'release':{
-				"\'localMapsExpr':[
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-S-A-F9>', "':Dispatch makedali.py install_all2run_release '.expand('%:p').'; echo \"END:0::\"<CR>'"],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<S-F12>', "':Dispatch makedali.py configure_release '.expand('%:p').'; echo \"END:0::\"<CR>'"],
-				"\],
-			"\},
-			"\'debug':{
-				"\'localMapsExpr':[
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-S-A-F9>', "':Dispatch makedali.py install_all2run_debug '.expand('%:p').'; echo \"END:0::\"<CR>'"],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<S-F12>', "':Dispatch makedali.py configure_debug '.expand('%:p').'; echo \"END:0::\"<CR>'"],
-				"\],
-			"\},
-		"\},
-	"\}],
-
-"""""""""""""""""""""""""""""""""""""""""""""
-" key mappings - not necessary for xterm
-"""""""""""""""""""""""""""""""""""""""""""""
-"if !has('gui_running')
-	"" to recognize alt key in gnome terminal
-	"" http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
-	"function! RegisterAltMaps(start_ascii, end_ascii)
-		"let n=a:start_ascii
-		"while n <= a:end_ascii
-		  "let c = nr2char(n)
-		  "if c==#'"'
-			  "let c = '\'.c
-		  "elseif c==#'>' || c==#'|'
-			  "let n = n+1
-			  "continue
-		  "endif
-		  "exec "set <A-".c.">=\e".c
-		  "exec "imap \e".c." <A-".c.">"
-		  "let n = n+1
-		"endw
-	"endfunction
-	""call RegisterAltMaps(48, 57)	|"0 to 9
-	"call RegisterAltMaps(92, 93)	|"\,]
-	"call RegisterAltMaps(45, 61)	|"-,=
-	"call RegisterAltMaps(40, 41)	|"(,)
-	""call RegisterAltMaps(97, 122)	|"a to z - now vim-fixkey do this.
-	"set timeout ttimeoutlen=50
-"endif
-
 """""""""""""""""""""""""""""""""""""""""""""
 " useful default mappings
 "
@@ -520,64 +419,22 @@ endif
 " :diffthis - do this command for each already opened windows
 
 """""""""""""""""""""""""""""""""""""""""""""
+" useful advanced feature
+" diff
+" window
+" tab
+" quickfix
+" grep
+" shortcut
+" plugin
+
+"""""""""""""""""""""""""""""""""""""""""""""
 " basic mappings
 
 nnoremap <silent> <Space> :normal! za<CR>	|"Map toggle function to Space key. 
 nnoremap <Leader><CR> O<Esc>				|"insert one line above cursor
 call s:nnoreicmap('','<C-s>',':w<CR>')		|"save. works only when "stty -ixon" is defined in .bashrc
 nnoremap <silent> <C-c> <C-c>:noh<CR>		|"<C-c> in normal model removes search highlighting.
-
-"if !has('win32')
-	"" excape hangul mode in normal mode
-"python <<EOF
-"import ibus
-"import vim
-"im_bus = ibus.Bus()
-"im_ic = ibus.InputContext(im_bus, im_bus.current_input_contxt())
-"def im_is_active():
-	"if im_ic.is_enabled():
-		"return 1
-	"else:
-		"return 0
-"def im_escape():
-	"vim.command('let g:imstatus = %d' % im_is_active())
-	"im_ic.disable()
-"def im_enable():
-	"im_ic.enable()
-"def im_disable():
-	"im_ic.disable()
-"EOF
-	"if !has('gui_running')
-		"let g:ibusinit = 0
-		"let g:imstatus = 0
-
-		"function! InitIBus()
-			"if g:ibusinit
-				"return
-			"endif
-			"let g:ibusinit = 1
-		"endfunction
-
-		"function! ImEscape()
-			"py im_escape()
-		"endfunction
-		"function! ImEnter()
-			"if g:imstatus
-				"py im_enable()
-			"endif
-		"endfunction
-
-		"autocmd VimEnter * call InitIBus()
-
-		"inoremap <silent> <ESC> <ESC>:call ImEscape()<CR>
-		"nnoremap <silent> i :call ImEnter()<CR>i
-		"nnoremap <silent> I :call ImEnter()<CR>I
-		"nnoremap <silent> o :call ImEnter()<CR>o
-		"nnoremap <silent> O :call ImEnter()<CR>O
-		"nnoremap <silent> a :call ImEnter()<CR>a
-		"nnoremap <silent> A :call ImEnter()<CR>A
-	"endif
-"endif
 
 " window resizing
 nnoremap <A--> 4<C-w><
@@ -981,4 +838,104 @@ for i in range(len(vim.windows)):
 vim.command('return 1' if exist else 'return 0')
 EOF
 endfunction
+
+"""""""""""""""""""""""""""""""""""""""""""""
+" key mappings - not necessary for xterm
+"""""""""""""""""""""""""""""""""""""""""""""
+"if !has('gui_running')
+	"" to recognize alt key in gnome terminal
+	"" http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
+	"function! RegisterAltMaps(start_ascii, end_ascii)
+		"let n=a:start_ascii
+		"while n <= a:end_ascii
+		  "let c = nr2char(n)
+		  "if c==#'"'
+			  "let c = '\'.c
+		  "elseif c==#'>' || c==#'|'
+			  "let n = n+1
+			  "continue
+		  "endif
+		  "exec "set <A-".c.">=\e".c
+		  "exec "imap \e".c." <A-".c.">"
+		  "let n = n+1
+		"endw
+	"endfunction
+	""call RegisterAltMaps(48, 57)	|"0 to 9
+	"call RegisterAltMaps(92, 93)	|"\,]
+	"call RegisterAltMaps(45, 61)	|"-,=
+	"call RegisterAltMaps(40, 41)	|"(,)
+	""call RegisterAltMaps(97, 122)	|"a to z - now vim-fixkey do this.
+	"set timeout ttimeoutlen=50
+"endif
+
+
+	"\[['*/DMLcpp/*'],{
+		"\'buildConfigNames':['release','debug'],
+		"\'buildConfigs':{
+			"\'release':{
+				"\'localMaps':[
+					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rbuildrun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
+					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rbuild\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
+					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rrun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
+					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rclean\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
+				"\],
+				"\'localMapsExpr':[
+					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<S-F9>', "':ConqueGdb '.split(system('make rprintbin'),'\n')[1].'<CR>'"],
+				"\],
+			"\},
+			"\'debug':{
+				"\'localMaps':[
+					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ dbuildrun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
+					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ dbuild\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
+					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ drun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
+					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ dclean\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
+				"\],
+				"\'localMapsExpr':[
+					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<S-F9>', "':ConqueGdb '.split(system('make dprintbin'),'\n')[1].'<CR>'"],
+				"\],
+			"\},
+		"\},
+	"\}],
+
+	"\[['*/dali*'],{
+		"\'setLocals':[
+			"\'tabstop=2',
+			"\'shiftwidth=2',
+			"\'expandtab',
+		"\],
+	"\}],
+	"\[['*/homescreen*','*/itc*','*/online-doc*'],{
+		"\'setLocals':[
+			"\'tabstop=2',
+			"\'shiftwidth=2',
+			"\'noexpandtab',
+		"\],
+	"\}],
+	"\[['*/dali*'],{
+		"\'configNames':['release','debug'],
+		"\'defaultConfigName':'release',
+		"\'commonConfig':{
+			"\'localMapsExpr':[
+				"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', "':Dispatch makedali.py install2run '.expand('%:p').'; echo \"END:0::\"<CR>'"],
+				"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', "':Dispatch makedali.py run '.expand('%:p').'; echo \"END:0::\"<CR>'"],
+				"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<S-F9>', "':ConqueGdb '.$DESKTOP_PREFIX.'/bin/'.GetDaliRunFile(expand('%:p')).'; echo \"END:0::\"<CR>'"],
+				"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', "':Dispatch makedali.py install '.expand('%:p').'; echo \"END:0::\"<CR>'"],
+				"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', "':Dispatch makedali.py clean '.expand('%:p').'; echo \"END:0::\"<CR>'"],
+			"\],
+		"\},
+		"\'configs':{
+			"\'release':{
+				"\'localMapsExpr':[
+					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-S-A-F9>', "':Dispatch makedali.py install_all2run_release '.expand('%:p').'; echo \"END:0::\"<CR>'"],
+					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<S-F12>', "':Dispatch makedali.py configure_release '.expand('%:p').'; echo \"END:0::\"<CR>'"],
+				"\],
+			"\},
+			"\'debug':{
+				"\'localMapsExpr':[
+					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-S-A-F9>', "':Dispatch makedali.py install_all2run_debug '.expand('%:p').'; echo \"END:0::\"<CR>'"],
+					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<S-F12>', "':Dispatch makedali.py configure_debug '.expand('%:p').'; echo \"END:0::\"<CR>'"],
+				"\],
+			"\},
+		"\},
+	"\}],
 
