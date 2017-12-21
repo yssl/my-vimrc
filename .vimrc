@@ -710,16 +710,9 @@ if has('unix')
 	let g:NERDTreeDirArrowExpandable = '+'
 endif
 let NERDTreeShowBookmarks=1
-call s:nnoreicmap('','<F3>',':call NERDTreeFocusOrOpen()<CR>')
+call s:nnoreicmap('','<F3>',':NERDTree<CR>')
 call s:nnoreicmap('','<S-F3>',':NERDTreeClose<CR>')
 call s:nnoreicmap('','<C-F3>',':NERDTreeFind<CR>')
-
-function! NERDTreeFocusOrOpen()
-	let ntexist = JumpToWinBySubname('NERD_tree')
-	if ntexist==0
-		call feedkeys(":NERDTree\<CR>")
-	endif
-endfunction
 
 " Tagbar
 call s:nnoreicmap('','<F4>',':TagbarOpen fj<CR>')
@@ -831,7 +824,7 @@ func! GetWinNrByBuftype(type)
 	return -1
 endfunc
 
-function! JumpToWinBySubname(subname)
+func! GetWinNrByBufSubname(subname)
 python << EOF
 import vim
 subname = vim.eval('a:subname')
@@ -842,12 +835,13 @@ for i in range(len(vim.windows)):
 	if bufname==None:
 		continue
 	elif subname in bufname:
-		vim.command(str(i+1)+'wincmd w')
+		vim.command('return %d'%(i+1))
 		exist = True
 		break
-vim.command('return 1' if exist else 'return 0')
+if not exist:
+	vim.command('return -1')
 EOF
-endfunction
+endfunc
 
 """""""""""""""""""""""""""""""""""""""""""""
 " key mappings - not necessary for xterm
