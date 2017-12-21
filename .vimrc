@@ -258,8 +258,8 @@ else
 	" use vim's server feature to call :CWindowDisplayErrorReturnFocus command to move focus to the previously focused window
 	" you need to enable servername feature for non-GUI vim
 	" refer http://vim.wikia.com/wiki/Enable_servername_capability_in_vim/xterm
-	let s:makeprg_post = ';\ echo\ \"ERROREND\ \";\ vim\ --servername\ '.v:servername.'\ --remote-send\ \\<ESC\\>:CWindowDisplayErrorReturnFocus\\<CR\\>'
-	"let s:makeprg_post = ';\ echo\ \"ERROREND\ \"'
+	" sleep 100m is required otherwise CWindowDisplayErrorReturnFocus is executed before the make output is filled into quickfix, thus display the last error of PREVIOUS quickfix contents.
+	let s:makeprg_post = ';\ echo\ \"ERROREND\ \";\ vim\ --servername\ '.v:servername.'\ --remote-send\ \\<ESC\\>:sleep\\\ 100m\\<CR\\>:CWindowDisplayErrorReturnFocus\\<CR\\>'
 
 	" 'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post
 	" ->
