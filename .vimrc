@@ -164,9 +164,9 @@ endfun
 augroup mygroup
 	autocmd!
 
-	" Without this line, following makeprg_post results in open a new buffer named "<ESC>:QuickfixCWindowError<CR>" on Ubuntu.
+	" Without this line, following makeprg_post results in open a new buffer named "<ESC>:CWindowDisplayErrorReturnFocus<CR>" on Ubuntu.
 	" Don't know why, but figured out sourcing .vimrc one time prevents such behavior.
-	" let s:makeprg_post = ';\ echo\ \"ERROREND\ \";\ vim\ --servername\ '.v:servername.'\ --remote-send\ \\<ESC\\>:QuickfixCWindowError\\<CR\\>'
+	" let s:makeprg_post = ';\ echo\ \"ERROREND\ \";\ vim\ --servername\ '.v:servername.'\ --remote-send\ \\<ESC\\>:CWindowDisplayErrorReturnFocus\\<CR\\>'
 	autocmd VimEnter * source $MYVIMRC
 
 	" disable auto commenting with new line
@@ -244,7 +244,7 @@ if has('win32')
 	func! s:FillQuickfixWithTempFile()
 		exec 'cgetfile '.s:tempfile
 		call delete(s:tempfile)
-		call QuickfixCWindowError()
+		call CWindowDisplayErrorReturnFocus()
 	endfun
 
 	command! FillQuickfixWithTempFile call s:FillQuickfixWithTempFile()
@@ -255,14 +255,15 @@ else
 	" : no delay, unbuffered screen output for any program
 	let s:makeprg_pre = 'stdbuf\ -i0\ -o0\ '
 
-	" use vim's server feature to call :QuickfixCWindowError command to move focus to the previously focused window
+	" use vim's server feature to call :CWindowDisplayErrorReturnFocus command to move focus to the previously focused window
 	" you need to enable servername feature for non-GUI vim
 	" refer http://vim.wikia.com/wiki/Enable_servername_capability_in_vim/xterm
-	let s:makeprg_post = ';\ echo\ \"ERROREND\ \";\ vim\ --servername\ '.v:servername.'\ --remote-send\ \\<ESC\\>:QuickfixCWindowError\\<CR\\>'
+	let s:makeprg_post = ';\ echo\ \"ERROREND\ \";\ vim\ --servername\ '.v:servername.'\ --remote-send\ \\<ESC\\>:CWindowDisplayErrorReturnFocus\\<CR\\>'
+	"let s:makeprg_post = ';\ echo\ \"ERROREND\ \"'
 
 	" 'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post
 	" ->
-	" stdbuf -i0 -o0 python -u test.py; echo ERROREND ; vim --servername VIM --remote-send <ESC>::QuickfixCWindowError<CR>
+	" stdbuf -i0 -o0 python -u test.py; echo ERROREND ; vim --servername VIM --remote-send <ESC>::CWindowDisplayErrorReturnFocus<CR>
 
 	"" a little inconvenient version - window focus will be still on the quickfix window when building is done.
 	"let s:makeprg_post = ';\ echo\ \"ERROREND\ \"'
@@ -380,8 +381,8 @@ else
 	call add(g:autosettings_settings,
 		\[['*.tex'],{
 			\'localMaps':[
-				\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:BuildAndViewTexPdf<CR>:call QuickfixCWindowError()<CR><C-l><C-l>'],
-				\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':w<CR>:BuildTexPdf<CR>:call QuickfixCWindowError()<CR><C-l>'],
+				\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:BuildAndViewTexPdf<CR>:call CWindowDisplayErrorReturnFocus()<CR><C-l><C-l>'],
+				\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':w<CR>:BuildTexPdf<CR>:call CWindowDisplayErrorReturnFocus()<CR><C-l>'],
 				\[['nnoremap'], '<Leader>fs', ':call Tex_ForwardSearchLaTeX()<CR>'],
 			\],
 			\'setLocals':[
@@ -473,54 +474,65 @@ vnoremap <silent> # :<C-U>
 " advanced mappings
 
 " quickfix
-call s:nnoreicmap('','<F2>',':call QuickfixFocusOrOpen()<CR>')
+call s:nnoreicmap('','<F2>',':call COpenReturnFocusThenMoveFocus()<CR>')
 call s:nnoreicmap('','<S-F2>',':cclose<CR>')
 call s:nnoreicmap('','<F8>',':VScnextc<CR>')
 call s:nnoreicmap('','<S-F8>',':VScprevc<CR>')
-call s:nnoreicmap('','<C-F8>',':call QuickfixFocusOrOpenError(1)<CR>')
-call s:nnoreicmap('','<C-S-F8>',':call QuickfixFocusOrOpenError(0)<CR>')
+call s:nnoreicmap('','<C-F8>',':call COpenFindErrorString(1)<CR>')
+call s:nnoreicmap('','<C-S-F8>',':call COpenFindErrorString(0)<CR>')
 call s:nnoreicmap('','<A-1>',':cold<CR>')
 call s:nnoreicmap('','<A-2>',':cnew<CR>')
 
-" first call : open quickfix, second call : jump to quickfix
-function! QuickfixFocusOrOpen()
-	let qfexist = JumpToWinByBuftype('quickfix')
-	if qfexist==0
-		call QuickfixCOpen()
-	endif
-endfunction
-
-function! QuickfixCOpen()
+func! COpenReturnFocus()
 	botright copen
 	wincmd p
-endfunction
+endfunc
 
-" first call : open quickfix, second call : jump to quickfix and jump to the last error
-function! QuickfixFocusOrOpenError(isNext)
-	let qfexist = JumpToWinByBuftype('quickfix')
-	if qfexist==0
-		call QuickfixCOpen()
-	endif
-	execute "silent! cla"
-	if a:isNext
-		execute "silent! normal! /error\<CR>"
+" first call : just open quickfix
+" second call : jump to quickfix
+func! COpenReturnFocusThenMoveFocus()
+	let qfwinnr = GetWinNrByBuftype('quickfix')
+	if qfwinnr==-1
+		call COpenReturnFocus()
 	else
-		execute "silent! normal! ?error\<CR>"
+		exec qfwinnr.'wincmd w'
 	endif
-endfunction
+endfunc
 
-" Open Quickfix if there are errors and jump to the last error and return the focus to the previously focused window again.
-" If there is no error, Quickfix window is not opened and the editing window still keeps the focus.
-function! QuickfixCWindowError()
+" first call : just open quickfix
+" second call : jump to quickfix and display the last error
+" third call : find next/prev 'error' string
+func! COpenFindErrorString(isNext)
+	let qfwinnr = GetWinNrByBuftype('quickfix')
+	if qfwinnr==-1
+		call COpenReturnFocus()
+	else
+		if winnr()!=qfwinnr
+			execute "silent! cla"
+			exec qfwinnr.'wincmd w'
+		else
+			if a:isNext
+				execute "silent! normal! /error\<CR>"
+			else
+				execute "silent! normal! ?error\<CR>"
+			endif
+		endif
+	endif
+endfunc
+
+" Open Quickfix and display the last error if exists (and the editing window has the focus)
+" If there is no error, Quickfix window is not opened and the editing window still has the focus.
+func! CWindowDisplayErrorReturnFocus()
 	botright cwindow
 	execute "silent! cla"
-	let qfexist = JumpToWinByBuftype('quickfix')
-	if qfexist==1
+	let qfwinnr = GetWinNrByBuftype('quickfix')
+	if qfwinnr!=-1
+		exec qfwinnr.'wincmd w'
 		wincmd p
 	endif
-endfunction
+endfunc
 
-command! QuickfixCWindowError call QuickfixCWindowError()
+command! CWindowDisplayErrorReturnFocus call CWindowDisplayErrorReturnFocus()
 
 """""""""""""""""""""""""""""""""""""""""""""
 " leader mappings
@@ -773,7 +785,7 @@ let g:vintsearch_includepatterns =
 "let g:vintsearch_includepatterns =
 	"\ ['*.c','*.cpp','*.h','*.hpp','*.inl']
 let g:vintsearch_excludepatterns =
-	\ ['*automated-tests*','*release*','*optresult*', '*evalresult*', '*video*']
+	\ ['*automated-tests*','*release*','*optresult*', '*evalresult*', '*video*', '*CMakeFiles*']
 
 " QFEnter
 let g:qfenter_cc_cmd = 'VScc ##'
@@ -808,18 +820,16 @@ let g:ConqueGdb_Leader = '\'
 """""""""""""""""""""""""""""""""""""""""""""
 " jump to window functions
 """""""""""""""""""""""""""""""""""""""""""""
-" return 0 if the quickfix window exist, 0 otherwise
-function! JumpToWinByBuftype(type)
+func! GetWinNrByBuftype(type)
 	for i in range(1, winnr('$'))
 		let bufnr = winbufnr(i)
 		let buftype = getbufvar(bufnr, '&buftype')
 		if buftype==#a:type
-			execute i.'wincmd w'
-			return 1
+			return i
 		endif
 	endfor
-	return 0
-endfunction
+	return -1
+endfunc
 
 function! JumpToWinBySubname(subname)
 python << EOF
@@ -938,4 +948,5 @@ endfunction
 			"\},
 		"\},
 	"\}],
+
 
