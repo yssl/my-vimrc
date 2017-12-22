@@ -778,7 +778,7 @@ let g:vintsearch_includepatterns =
 "let g:vintsearch_includepatterns =
 	"\ ['*.c','*.cpp','*.h','*.hpp','*.inl']
 let g:vintsearch_excludepatterns =
-	\ ['*automated-tests*','*release*','*optresult*', '*evalresult*', '*video*', '*CMakeFiles*']
+	\ ['*automated-tests*','*release*','*optresult*', '*evalresult*', '*video*', '*CMakeFiles*', '*test-assignments*', '*output*']
 
 " QFEnter
 let g:qfenter_cc_cmd = 'VScc ##'
@@ -942,5 +942,4 @@ endfunc
 			"\},
 		"\},
 	"\}],
-
 
