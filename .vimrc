@@ -212,6 +212,16 @@ set errorformat+=ERROREND\
 " default: blank,buffers,curdir,folds,help,options,tabpages,winsize
 set sessionoptions=curdir,folds,help,options,tabpages,winpos,winsize
 
+" python luancher command
+call system('py --version')
+if v:shell_error==0
+	" when python3 is installed
+	let s:python_launcher = 'py'
+else
+	" when is python2 is installed
+	let s:python_launcher = 'python'
+endif
+
 """""""""""""""""""""""""""""""""""""""""""""
 " different makeprg for each platform
 
@@ -235,7 +245,7 @@ if has('win32')
 	let s:makeprg_pre = 'start\ cmd\ /c\ \"('
 	let s:makeprg_post = '\ &\ echo\ ERROREND)\ 2>&1\ \\|\ tee\ '.s:tempfile.'\ &\ gvim\ --server-name\ '.v:servername.'\ --remote-send\ ^<ESC^>:FillQuickfixWithTempFile^<CR^>\"'
 
-	" 'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post
+	" 'makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ %'.s:makeprg_post
 	" ->
 	" 'makeprg=start\ cmd\ /c\ \"(python\ -u\ %\ &\ echo\ ERROREND)\ 2>&1\ \\|\ tee\ '.s:tempfile.'\ &\ gvim\ --server-name\ '.v:servername.'\ --remote-send\ ^<ESC^>:FillQuickfixWithTempFile^<CR^>\"'
 	" ->
@@ -261,14 +271,14 @@ else
 	" sleep 100m is required otherwise CWindowDisplayErrorReturnFocus is executed before the make output is filled into quickfix, thus display the last error of PREVIOUS quickfix contents.
 	let s:makeprg_post = ';\ echo\ \"ERROREND\ \";\ vim\ --servername\ '.v:servername.'\ --remote-send\ \\<ESC\\>:sleep\\\ 100m\\<CR\\>:CWindowDisplayErrorReturnFocus\\<CR\\>'
 
-	" 'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post
+	" 'makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ %'.s:makeprg_post
 	" ->
 	" stdbuf -i0 -o0 python -u test.py; echo ERROREND ; vim --servername VIM --remote-send <ESC>::CWindowDisplayErrorReturnFocus<CR>
 
 	"" a little inconvenient version - window focus will be still on the quickfix window when building is done.
 	"let s:makeprg_post = ';\ echo\ \"ERROREND\ \"'
 
-	" 'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post
+	" 'makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ %'.s:makeprg_post
 	" ->
 	" stdbuf -i0 -o0 python -u test.py; echo ERROREND 
 endif
@@ -304,7 +314,7 @@ let g:autosettings_settings = [
 	\}],
 	\[['*.py'],{
 		\'setLocals':[
-			\'makeprg='.s:makeprg_pre.'python\ -u\ %'.s:makeprg_post,
+			\'makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ %'.s:makeprg_post,
 		\],
 	\}],
 	\[['*.bat'],{
@@ -317,34 +327,34 @@ let g:autosettings_settings = [
 		\'buildConfigs':{
 			\'release':{
 				\'localMaps':[
-					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rbuild\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
-					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rbuildrun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
-					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rrun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
-					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rclean\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rbuild\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rbuildrun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rrun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rclean\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
 				\],
 			\},
 			\'debug':{
 				\'localMaps':[
-					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ dbuild\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
-					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ dbuildrun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
-					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ drun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
-					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ dclean\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ dbuild\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ dbuildrun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ drun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ dclean\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
 				\],
 			\},
 		\},
 	\}],
 	\[['*/DMLpy/setup.py','*/DMLcpp/*/*_py.cpp'],{
 		\'localMaps':[
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ setup.py\ build_ext'.s:makeprg_post.'<CR>:silent Make<CR>'],
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ setup.py\ clean'.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ setup.py\ build_ext'.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ setup.py\ clean'.s:makeprg_post.'<CR>:silent Make<CR>'],
 		\],
 	\}],
 	\[['*/dart*/*'],{
 		\'localMaps':[
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rbuild\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rbuildrun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rrun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rclean\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rbuild\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rbuildrun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rrun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rclean\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
 		\],
 	\}],
 \]
@@ -878,10 +888,10 @@ endfunc
 		"\'buildConfigs':{
 			"\'release':{
 				"\'localMaps':[
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rbuildrun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rbuild\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rrun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ rclean\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
+					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rbuildrun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
+					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rbuild\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
+					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rrun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
+					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rclean\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
 				"\],
 				"\'localMapsExpr':[
 					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<S-F9>', "':ConqueGdb '.split(system('make rprintbin'),'\n')[1].'<CR>'"],
@@ -889,10 +899,10 @@ endfunc
 			"\},
 			"\'debug':{
 				"\'localMaps':[
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ dbuildrun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ dbuild\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ drun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.'python\ -u\ make.py\ dclean\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
+					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ dbuildrun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
+					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ dbuild\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
+					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ drun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
+					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ dclean\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
 				"\],
 				"\'localMapsExpr':[
 					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<S-F9>', "':ConqueGdb '.split(system('make dprintbin'),'\n')[1].'<CR>'"],
