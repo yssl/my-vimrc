@@ -212,15 +212,16 @@ set errorformat+=ERROREND\
 " default: blank,buffers,curdir,folds,help,options,tabpages,winsize
 set sessionoptions=curdir,folds,help,options,tabpages,winpos,winsize
 
+"""""""""""""""""""""""""""""""""""""""""""""
 " python luancher command
-call system('py --version')
-if v:shell_error==0
-	" when python3 is installed
-	let s:python_launcher = 'py'
-else
-	" when is python2 is installed
-	let s:python_launcher = 'python'
-endif
+
+" In general, assume vim is in a virtualenv (thus launches any versions of python just by 'python' command)
+let s:python_launcher = 'python'
+
+" speicial cases without using a virtualenv
+"let s:python_launcher = 'py\ -2'		|" python2 with py launcher on Windows
+"let s:python_launcher = 'py\ -3'		|" python3 with py launcher on Windows
+"let s:python_launcher = 'python3'		|" python3 on Ubuntu
 
 """""""""""""""""""""""""""""""""""""""""""""
 " different makeprg for each platform
