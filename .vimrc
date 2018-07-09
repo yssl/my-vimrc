@@ -822,6 +822,11 @@ nnoremap <Leader>a :A<CR>
 " ConqueGdb
 let g:ConqueGdb_Leader = '\'
 
+" vim-virtualenv
+if has('win32')
+	let g:virtualenv_directory = 'C:\Users\yoonsang\Envs'
+endif
+
 """""""""""""""""""""""""""""""""""""""""""""
 " jump to window functions
 """""""""""""""""""""""""""""""""""""""""""""
@@ -954,3 +959,4 @@ endfunc
 			"\},
 		"\},
 	"\}],
+
