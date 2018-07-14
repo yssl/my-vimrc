@@ -13,7 +13,6 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdcommenter'
 Plug 'vim-scripts/AutoComplPop'
-"Plug 'vim-scripts/TeX-PDF'
 Plug 'vim-scripts/a.vim'
 "Plug 'vim-scripts/CSApprox'
 
@@ -361,47 +360,38 @@ let g:autosettings_settings = [
 	\}],
 \]
 
+call add(g:autosettings_settings,
+	\[['*.tex'],{
+		\'localMaps':[
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:silent Make<CR>:call OpenCurrentPDF()<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':w<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':w<CR>:call OpenCurrentPDF()<CR>'],
+			\[['nnoremap'], '<Leader>fs', ':call Tex_ForwardSearchLaTeX()<CR>'],
+		\],
+		\'setLocals':[
+			\'wrap',
+			\'expandtab',
+			\'makeprg='.s:makeprg_pre.'latexmk\ -pdf\ -latexoption=\"-synctex=1\"\ %'.s:makeprg_post,
+		\],
+	\}])
+
 if has('win32')
 	fun! OpenCurrentPDF()
 		exec 'silent !start cmd /K "start '.fnamemodify(expand('%'), ":p:r").'.pdf && exit"'
 	endfun
-
-	call add(g:autosettings_settings,
-		\[['*.tex'],{
-			\'localMaps':[
-				\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:silent Make<CR>:call OpenCurrentPDF()<CR>'],
-				\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':w<CR>:silent Make<CR>'],
-				\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':w<CR>:call OpenCurrentPDF()<CR>'],
-				\[['nnoremap'], '<Leader>fs', ':call Tex_ForwardSearchLaTeX()<CR>'],
-			\],
-			\'setLocals':[
-				\'wrap',
-				\'expandtab',
-				\'makeprg='.s:makeprg_pre.'latexmk\ -pdf\ -latexoption=\"-synctex=1\"\ %'.s:makeprg_post,
-			\],
-		\}])
 else
-	function! Tex_ForwardSearchLaTeX()
+	fun! OpenCurrentPDF()
+		exec 'silent !gnome-open '.fnamemodify(expand('%'), ":p:r").'.pdf'
+	endfun
+
+	fun! Tex_ForwardSearchLaTeX()
 	let cmd = 'evince_forward_search ' . fnamemodify(Tex_GetMainFileName(), ":p:r") . '.pdf ' . line(".") . ' ' . expand("%:p")
 	let output = system(cmd)
-	endfunction
+	endfun
 
-	function! Tex_GetMainFileName()
+	fun! Tex_GetMainFileName()
 		return expand('%')
-	endfunction
-
-	call add(g:autosettings_settings,
-		\[['*.tex'],{
-			\'localMaps':[
-				\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:BuildAndViewTexPdf<CR>:call CWindowDisplayErrorReturnFocus()<CR><C-l><C-l>'],
-				\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':w<CR>:BuildTexPdf<CR>:call CWindowDisplayErrorReturnFocus()<CR><C-l>'],
-				\[['nnoremap'], '<Leader>fs', ':call Tex_ForwardSearchLaTeX()<CR>'],
-			\],
-			\'setLocals':[
-				\'wrap',
-				\'expandtab',
-			\],
-		\}])
+	endfun
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""
