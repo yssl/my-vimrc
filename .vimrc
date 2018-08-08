@@ -288,10 +288,10 @@ endif
 " local settings for file path
 
 " build & run shortcut
-" F9 : build & run
+" F9 : build only
+" C-F9 : run only
+" A-F9 : build & run 
 " C-S-A-F9 : build all & run
-" C-F9 : run
-" A-F9 : build only
 " S-F9 : debugger run (conquegdb)
 " F12 : toggle release/debug
 " A-S-F12 : clean
@@ -306,6 +306,14 @@ let g:autosettings_settings = [
 	\[['*.tex','*.txt','*.md','*.html','*.htm'],{
 		\'setLocals':[
 			\'wrap',
+		\],
+	\}],
+	\[['*.cpp','*.c','*.h','*.hpp'],{
+		\'localMaps':[
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rbuild\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rbuildrun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rrun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rclean\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
 		\],
 	\}],
 	\[['*.py','*.bat'],{
@@ -750,6 +758,10 @@ let g:autocwd_patternwd_pairs = [
 	\['*/DMLpy/*', '*REPO*/DMLpy'],
 	\['*dali*', '*REPO*'],
 	\['*/dart*/*', '*REPO*'],
+	\['*.cpp', '%:p:h*'],
+	\['*.c', '%:p:h*'],
+	\['*.hpp', '%:p:h*'],
+	\['*.h', '%:p:h*'],
 	\]
 
 " VIntSearch
