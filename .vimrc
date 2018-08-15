@@ -38,7 +38,7 @@ Plug 'yssl/AutoSettings.vim'
 " Edit > Keyboard Shortcuts > uncheck "Enable menu access keys"
 " Edit > Keyboard Shortcuts > uncheck "Enable menu shortcut keys"
 " Edit > Keyboard Shortcuts > unbind F1 to Help
-"Plug 'drmikehenry/vim-fixkey'
+Plug 'drmikehenry/vim-fixkey'
 
 " color schemes
 Plug 'vim-scripts/molokai'
@@ -961,4 +961,3 @@ endfunc
 			"\},
 		"\},
 	"\}],
-
