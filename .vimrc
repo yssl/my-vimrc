@@ -301,6 +301,7 @@ let g:autosettings_settings = [
 	\[['*.py','*.cpp','*.c','*.h','*.hpp','*.bat'],{
 		\'setLocals':[
 			\'expandtab',
+			\'tw=0',
 		\],
 	\}],
 	\[['*.tex','*.txt','*.md','*.html','*.htm'],{
