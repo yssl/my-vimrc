@@ -49,15 +49,12 @@ Plug 'vim-scripts/werks.vim'
 Plug 'vim-scripts/xoria256.vim'
 Plug 'vim-scripts/jellybeans.vim'
 Plug 'vim-scripts/Zenburn'
-Plug 'vim-scripts/sjl/badwolf'
 Plug 'vim-scripts/Gummybears'
-Plug 'vim-scripts/junegunn/seoul256.vim'
 Plug 'vim-scripts/rdark'
-Plug 'vim-scripts/croaker/mustang-vim'
 Plug 'vim-scripts/neverland.vim--All-colorschemes-suck'
 Plug 'vim-scripts/vydark'
 Plug 'vim-scripts/Sorcerer'
-Plug 'vim-scripts/twerth/ir_black'
+Plug 'vim-scripts/Lucius'
 
 call plug#end()
 
@@ -65,29 +62,29 @@ call plug#end()
 "colorscheme obsidian
 "colorscheme jellybeans
 colorscheme xoria256
-"colorscheme mustang
 "colorscheme wombat
 "colorscheme vydark
 "colorscheme sorcerer
 
+"bright background
+"colorscheme xoria256
+
 "bright
-"colorscheme werks
-"colorscheme desert
+"colorscheme lucius
+"LuciusWhite
 
 "dark
 "colorscheme gummybears
 "colorscheme rdark
-"colorscheme ir_black
 
 "high constrast
-"colorscheme badwolf
+"colorscheme werks
 "colorscheme molokai
 "colorscheme inkpot
 "colorscheme neverland
 
 "low constrast
 "colorscheme zenburn
-"colorscheme seoul256
 
 """""""""""""""""""""""""""""""""""""""""""""
 " vim options - common
