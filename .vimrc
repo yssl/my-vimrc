@@ -52,39 +52,49 @@ Plug 'vim-scripts/Zenburn'
 Plug 'vim-scripts/Gummybears'
 Plug 'vim-scripts/rdark'
 Plug 'vim-scripts/neverland.vim--All-colorschemes-suck'
-Plug 'vim-scripts/vydark'
 Plug 'vim-scripts/Sorcerer'
 Plug 'vim-scripts/Lucius'
+Plug 'vim-scripts/pyte'
+Plug 'vim-scripts/buttercream.vim'
+Plug 'fugalh/desert.vim'
+Plug 'junegunn/seoul256.vim'
+Plug 'altercation/vim-colors-solarized'
 
 call plug#end()
 
-"easy
-"colorscheme obsidian
-"colorscheme jellybeans
+" favorite
 colorscheme xoria256
-"colorscheme wombat
-"colorscheme vydark
+"colorscheme obsidian
 "colorscheme sorcerer
-
-"bright background
-"colorscheme xoria256
-
-"bright
-"colorscheme lucius
-"LuciusWhite
-
-"dark
-"colorscheme gummybears
+"colorscheme wombat
 "colorscheme rdark
+"colorscheme gummybears
+"colorscheme lucius | LuciusBlack
+"colorscheme lucius | LuciusBlackLowContrast
 
-"high constrast
-"colorscheme werks
+" light background
+"colorscheme buttercream
+"colorscheme pyte
+"colorscheme lucius | LuciusWhite
+"colorscheme lucius | LuciusLight
+"colorscheme solarized | set background=light
+
+" high contrast
+"colorscheme jellybeans
 "colorscheme molokai
-"colorscheme inkpot
 "colorscheme neverland
+"colorscheme lucius | LuciusBlackHighContrast
 
-"low constrast
+" mid contrast
+"colorscheme werks
+"colorscheme desert
+"colorscheme inkpot
+
+" low contrast
+"colorscheme seoul256
 "colorscheme zenburn
+"colorscheme lucius | LuciusDarkLowContrast
+"colorscheme solarized | set background=dark
 
 """""""""""""""""""""""""""""""""""""""""""""
 " vim options - common
@@ -963,4 +973,3 @@ endfunc
 			"\},
 		"\},
 	"\}],
-
