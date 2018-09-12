@@ -94,6 +94,10 @@ colorscheme xoria256
 """""""""""""""""""""""""""""""""""""""""""""
 filetype plugin indent on
 
+" Fixing Vim's Background Color Erase for 256-color tmux and GNU screen
+" https://sunaku.github.io/vim-256color-bce.html
+set t_ut=
+
 " search, highlighting
 syntax on    " syntax highlighting on
 set hlsearch " switch on highlighting the last used search pattern
@@ -962,3 +966,4 @@ endfunc
 			"\},
 		"\},
 	"\}],
+
