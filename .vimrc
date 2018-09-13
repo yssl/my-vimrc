@@ -1,11 +1,6 @@
 """""""""""""""""""""""""""""""""""""""""""""
 " plugins 
 """""""""""""""""""""""""""""""""""""""""""""
-
-" delete after checking
-"set nocompatible
-"filetype off
-
 call plug#begin()
 
 Plug 'scrooloose/nerdtree'
@@ -66,7 +61,6 @@ call plug#end()
 colorscheme xoria256
 "colorscheme obsidian
 "colorscheme sorcerer
-"colorscheme wombat
 "colorscheme rdark
 "colorscheme gummybears
 "colorscheme lucius | LuciusBlack
@@ -83,6 +77,7 @@ colorscheme xoria256
 "colorscheme jellybeans
 "colorscheme molokai
 "colorscheme neverland
+"colorscheme wombat
 "colorscheme lucius | LuciusBlackHighContrast
 
 " mid contrast
