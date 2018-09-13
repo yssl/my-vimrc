@@ -14,7 +14,7 @@ Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdcommenter'
 Plug 'vim-scripts/AutoComplPop'
 Plug 'vim-scripts/a.vim'
-"Plug 'vim-scripts/CSApprox'
+Plug 'vim-scripts/CSApprox'
 
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-reload'
@@ -179,6 +179,7 @@ augroup mygroup
 	" Don't know why, but figured out sourcing .vimrc one time prevents such behavior.
 	" let s:makeprg_post = ';\ echo\ \"ERROREND\ \";\ vim\ --servername\ '.v:servername.'\ --remote-send\ \\<ESC\\>:CWindowDisplayErrorReturnFocus\\<CR\\>'
 	autocmd VimEnter * source $MYVIMRC
+	autocmd VimEnter * :CSApprox	|" Rerun CSApprox because it does not work properly with the above line (sourcing .vimrc)
 
 	" disable auto commenting with new line
 	autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
@@ -221,7 +222,7 @@ set makeprg=stdbuf\ -i0\ -o0\ -e0\ make\ %
 set errorformat+=ERROREND\ 
 
 " default: blank,buffers,curdir,folds,help,options,tabpages,winsize
-set sessionoptions=curdir,folds,help,options,tabpages,winpos,winsize
+set sessionoptions=curdir,folds,help,tabpages,winpos,winsize
 
 """""""""""""""""""""""""""""""""""""""""""""
 " python luancher command
@@ -829,6 +830,7 @@ vmap a <Plug>(EasyAlign)	|" Start interactive EasyAlign in visual mode
 " vim-session
 let g:session_autoload = 'yes'
 let g:session_autosave = 'yes'
+let g:session_persist_colors = 0
 
 " a.vim
 nnoremap <Leader>a :A<CR>
