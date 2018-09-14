@@ -360,7 +360,7 @@ let g:autosettings_settings = [
 			\},
 		\},
 	\}],
-	\[['*/DMLpy/setup.py','*/DMLcpp/*/*_py.cpp'],{
+	\[['*/DMLpy/setup.py','*/DMLcpp/setup.py','*/DMLcpp/*/*_py.cpp'],{
 		\'localMaps':[
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ setup.py\ build_ext'.s:makeprg_post.'<CR>:silent Make<CR>'],
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ setup.py\ clean'.s:makeprg_post.'<CR>:silent Make<CR>'],
@@ -761,7 +761,8 @@ let g:autocwd_patternwd_pairs = [
 	\['*/gallery-lite/*', '*REPO*'],
 	\['*/DMLcpp/ExternalLibraries/VirtualPhysics/*', '*REPO*/DMLcpp/ExternalLibraries/VirtualPhysics/'],
 	\['*/DMLcpp/ExternalLibraries/GEAR/*', '*REPO*/DMLcpp/ExternalLibraries/GEAR/'],
-	\['*/DMLcpp/*/*_py.cpp', '*REPO*/DMLpy'],
+	\['*/DML2/DMLcpp/*/*_py.cpp', '*REPO*/DMLpy'],
+	\['*/DML3/DMLcpp/*/*_py.cpp', '*REPO*/DMLcpp'],
 	\['*/DMLcpp/*', '*REPO*/DMLcpp'],
 	\['*/DMLpy/*', '*REPO*/DMLpy'],
 	\['*dali*', '*REPO*'],
@@ -970,4 +971,5 @@ endfunc
 			"\},
 		"\},
 	"\}],
+
 
