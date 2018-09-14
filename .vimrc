@@ -58,13 +58,13 @@ Plug 'altercation/vim-colors-solarized'
 call plug#end()
 
 " favorite
-colorscheme xoria256
+"colorscheme xoria256
 "colorscheme obsidian
 "colorscheme sorcerer
 "colorscheme rdark
 "colorscheme gummybears
 "colorscheme lucius | LuciusBlack
-"colorscheme lucius | LuciusBlackLowContrast
+colorscheme lucius | LuciusBlackLowContrast
 
 " light background
 "colorscheme buttercream
@@ -970,3 +970,4 @@ endfunc
 			"\},
 		"\},
 	"\}],
+
