@@ -49,11 +49,13 @@ Plug 'vim-scripts/rdark'
 Plug 'vim-scripts/neverland.vim--All-colorschemes-suck'
 Plug 'vim-scripts/Sorcerer'
 Plug 'vim-scripts/Lucius'
-Plug 'vim-scripts/pyte'
 Plug 'vim-scripts/buttercream.vim'
+Plug 'vim-scripts/Blueshift'
+Plug 'NLKNguyen/papercolor-theme'
 Plug 'fugalh/desert.vim'
 Plug 'junegunn/seoul256.vim'
 Plug 'altercation/vim-colors-solarized'
+Plug 'noahfrederick/vim-hemisu'
 
 call plug#end()
 
@@ -68,10 +70,12 @@ colorscheme lucius | LuciusBlackLowContrast
 
 " light background
 "colorscheme buttercream
-"colorscheme pyte
 "colorscheme lucius | LuciusWhite
 "colorscheme lucius | LuciusLight
 "colorscheme solarized | set background=light
+"colorscheme PaperColor | set background=light
+"colorscheme hemisu | set background=light
+"colorscheme blueshift
 
 " high contrast
 "colorscheme jellybeans
@@ -90,6 +94,29 @@ colorscheme lucius | LuciusBlackLowContrast
 "colorscheme zenburn
 "colorscheme lucius | LuciusDarkLowContrast
 "colorscheme solarized | set background=dark
+
+" cursor shape & color
+" http://vim.wikia.com/wiki/Configuring_the_cursor
+if &term =~ "xterm\\|rxvt"
+	" insert mode cursor shape
+	let &t_SI .= "\<Esc>[5 q"
+	" other modes cursor shape
+	let &t_EI .= "\<Esc>[2 q"
+	" 1 or 0 -> blinking block
+	" 2 -> solid block
+	" 3 -> blinking underscore
+	" 4 -> solid underscore
+	" Recent versions of xterm (282 or above) also support
+	" 5 -> blinking vertical bar
+	" 6 -> solid vertical bar
+
+	" cursor color
+	if &background=="light"
+	  silent !echo -ne "\033]12;grey39\007"
+	else
+	  silent !echo -ne "\033]12;grey62\007"
+	endif
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""
 " vim options - common
@@ -190,6 +217,9 @@ augroup mygroup
 	" autocmd BufEnter,WinEnter * if getbufvar(bufnr('%'), '&buftype')!=#'quickfix' | set cursorline | endif
 	autocmd BufEnter,WinEnter * set cursorline
 	autocmd WinLeave * set nocursorline |"nocursorcolumn
+
+	" reset cursor when vim exits
+	autocmd VimLeave * silent !echo -ne "\033]112\007"
 
 	"" remove trailing whitespace
 	"autocmd BufWritePre * :%s/\s\+$//e
@@ -971,5 +1001,3 @@ endfunc
 			"\},
 		"\},
 	"\}],
-
-
