@@ -281,13 +281,13 @@ if has('win32')
 	"let s:tempfile = 'c:/Users/yoonsang/temp.txt'
 
 	let s:makeprg_pre = 'start\ cmd\ /c\ \"('
-	let s:makeprg_post = '\ &\ echo\ ERROREND)\ 2>&1\ \\|\ tee\ '.s:tempfile.'\ &\ gvim\ --server-name\ '.v:servername.'\ --remote-send\ ^<ESC^>:FillQuickfixWithTempFile^<CR^>\"'
+	let s:makeprg_post = '\ &\ echo\ ERROREND)\ 2>&1\ \\|\ tee\ '.s:tempfile.'\ &\ gvim\ --servername\ '.v:servername.'\ --remote-send\ ^<ESC^>:FillQuickfixWithTempFile^<CR^>\"'
 
 	" 'makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ %'.s:makeprg_post
 	" ->
 	" 'makeprg=start\ cmd\ /c\ \"(python\ -u\ %\ &\ echo\ ERROREND)\ 2>&1\ \\|\ tee\ '.s:tempfile.'\ &\ gvim\ --server-name\ '.v:servername.'\ --remote-send\ ^<ESC^>:FillQuickfixWithTempFile^<CR^>\"'
 	" ->
-	" start cmd /c "(python -u test.py & echo ERROREND) 2>&1 | tee temp.txt & gvim --server-name GVIM --remote-send ^<ESC^>:FillQuickfixWithTempFile^<CR^>"
+	" start cmd /c "(python -u test.py & echo ERROREND) 2>&1 | tee temp.txt & gvim --servername GVIM --remote-send ^<ESC^>:FillQuickfixWithTempFile^<CR^>"
 
 	func! s:FillQuickfixWithTempFile()
 		exec 'cgetfile '.s:tempfile
@@ -1001,3 +1001,4 @@ endfunc
 			"\},
 		"\},
 	"\}],
+
