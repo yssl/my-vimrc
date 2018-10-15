@@ -427,7 +427,9 @@ if has('win32')
 	endfun
 else
 	fun! OpenCurrentPDF()
-		exec 'silent !gnome-open '.fnamemodify(expand('%'), ":p:r").'.pdf'
+		"exec 'silent !gnome-open '.fnamemodify(expand('%'), ":p:r").'.pdf'
+		"exec 'silent !evince '.fnamemodify(expand('%'), ":p:r").'.pdf &'
+		exec 'silent !evince '.fnamemodify(expand('%'), ":p:r").'.pdf '.v:servername.' &'
 	endfun
 
 	fun! Tex_ForwardSearchLaTeX()
@@ -1001,4 +1003,5 @@ endfunc
 			"\},
 		"\},
 	"\}],
+
 
