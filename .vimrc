@@ -15,12 +15,16 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-reload'
 Plug 'sk1418/QFGrep'
 Plug 'junegunn/vim-easy-align'
-Plug 'yssl/vim-fugitive'
-"Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-dispatch'
 Plug 'xolox/vim-session'
 Plug 'vim-scripts/Conque-Gdb'
 Plug 'plytophogy/vim-virtualenv'
+
+" my modifications
+"Plug 'tpope/vim-fugitive'
+Plug 'yssl/vim-fugitive'
+"Plug 'tpope/vim-dispatch'
+Plug 'yssl/vim-dispatch'
+
 
 " my plugins
 Plug 'yssl/QFEnter'
@@ -1003,5 +1007,3 @@ endfunc
 			"\},
 		"\},
 	"\}],
-
-
