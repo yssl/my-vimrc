@@ -99,7 +99,7 @@ colorscheme lucius | LuciusBlackLowContrast
 "colorscheme lucius | LuciusDarkLowContrast
 "colorscheme solarized | set background=dark
 
-" cursor shape & color
+" cursor shape & color for xterm
 " http://vim.wikia.com/wiki/Configuring_the_cursor
 if &term =~ "xterm\\|rxvt"
 	" insert mode cursor shape
@@ -154,10 +154,10 @@ set guioptions-=r	"right scrollbar always
 set guioptions-=R	"right scrollbar
 set guioptions-=h	"bottom scrollsbar
 
+" etc
 set history=50 " keep 50 lines of command line history
 set ruler      " show the cursor position all the time
 set showcmd    " display incomplete commands
-
 set fdm=indent    " code folding using indentation
 set noswapfile    " no swap file
 let mapleader="," " change <leader> key
@@ -224,6 +224,9 @@ augroup mygroup
 
 	" reset cursor when vim exits
 	autocmd VimLeave * silent !echo -ne "\033]112\007"
+
+	" automatically resize split windows to be equal after vim window was resized
+	autocmd VimResized * wincmd =
 
 	"" remove trailing whitespace
 	"autocmd BufWritePre * :%s/\s\+$//e
