@@ -424,9 +424,11 @@ call add(g:autosettings_settings,
 		\'setLocals':[
 			\'wrap',
 			\'expandtab',
-			\'makeprg='.s:makeprg_pre.'latexmk\ -pdf\ -latexoption=\"-synctex=1\"\ %'.s:makeprg_post,
+			\'tw=0',
+			\'makeprg='.s:makeprg_pre.'latexmk\ -pdf\ -latexoption=\"-synctex=1\"\ index.tex'.s:makeprg_post,
 		\],
 	\}])
+			"\'makeprg='.s:makeprg_pre.'latexmk\ -pdf\ -latexoption=\"-synctex=1\"\ %'.s:makeprg_post,
 
 if has('win32')
 	fun! OpenCurrentPDF()
@@ -436,7 +438,8 @@ else
 	fun! OpenCurrentPDF()
 		"exec 'silent !gnome-open '.fnamemodify(expand('%'), ":p:r").'.pdf'
 		"exec 'silent !evince '.fnamemodify(expand('%'), ":p:r").'.pdf &'
-		exec 'silent !evince '.fnamemodify(expand('%'), ":p:r").'.pdf '.v:servername.' &'
+		"exec 'silent !evince '.fnamemodify(expand('%'), ":p:r").'.pdf '.v:servername.' &'
+		exec 'silent !evince '.fnamemodify(Tex_GetMainFileName(), ":p:r").'.pdf '.v:servername.' &'
 	endfun
 
 	fun! Tex_ForwardSearchLaTeX()
@@ -445,7 +448,8 @@ else
 	endfun
 
 	fun! Tex_GetMainFileName()
-		return expand('%')
+		"return expand('%')
+		return expand('index.tex')
 	endfun
 endif
 
@@ -1010,3 +1014,4 @@ endfunc
 			"\},
 		"\},
 	"\}],
+
