@@ -837,7 +837,7 @@ vnoremap g{ :<C-u>VIntSearchCursor cftext v l<CR><CR>
 vnoremap g\ :<C-u>VIntSearchCursor file v l<CR><CR>
 
 let g:vintsearch_includepatterns = 
-		\ ['*.c','*.cpp','*.h','*.hpp','*.inl','*.py','*.lua','*.vim','*.js',
+		\ ['*.c','*.cpp','*.h','*.hpp','*.inl','*.py','*.lua','*.vim','*.js','*.css','*.scss',
 		\'*.md','*.txt','*.tex','*.sh',
 		\'*.html','*.htm','*.doxy','*.doxy.in',
 		\'*file.list','*configure.ac','*Makefile.am','*.spec']
