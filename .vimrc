@@ -858,6 +858,12 @@ let g:vintsearch_excludepatterns =
 let g:qfenter_cc_cmd = 'VScc ##'
 let g:qfenter_exclude_filetypes = ['nerdtree', 'tagbar']
 
+"" test for g:qfenter_prevtabwin_policy
+"let g:qfenter_prevtabwin_policy = 'qf'
+"let g:qfenter_prevtabwin_policy = 'none'
+"let g:qfenter_prevtabwin_policy = 'legacy'
+"let g:qfenter_prevtabwin_policy = 'test'
+
 "" test for g:qfenter_enable_autoquickfix
 "let g:qfenter_enable_autoquickfix = 0
 
@@ -1048,5 +1054,3 @@ endfunc
 			"\},
 		"\},
 	"\}],
-
-
