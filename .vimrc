@@ -215,7 +215,7 @@ augroup mygroup
 	autocmd FileType nerdtree setlocal foldlevel=99
 
 	" enter key in normal mode
-	autocmd BufEnter * if &modifiable==1 | nnoremap <buffer> <CR> o<Esc>| endif
+	autocmd BufEnter * if &modifiable==1| nnoremap <buffer> <CR> o<Esc>| endif
 
 	" highlight current window cursor line
 	" autocmd BufEnter,WinEnter * if getbufvar(bufnr('%'), '&buftype')!=#'quickfix' | set cursorline | endif
@@ -669,7 +669,14 @@ endfunction
 nmap <expr> <Leader>bc ":!/usr/bin/google-chrome ".expand('%:p')."\<CR>"
 
 " spell check
-nmap <expr> <Leader>sc ":!aspell --lang=en -c ".expand('%:p')."\<CR>"
+nmap <expr> <Leader>sc ":call ToggleSpellChecker()<CR>"
+fun! ToggleSpellChecker()
+	if &spell
+		exec "set nospell"
+	else
+		exec "set spell spelllang=en_us"
+	endif
+endfun
 
 """""""""""""""""""""""""""""""""""""""""""""
 " plugin mappings
@@ -846,9 +853,36 @@ let g:vintsearch_includepatterns =
 let g:vintsearch_excludepatterns =
 	\ ['*automated-tests*','*release*','*optresult*', '*evalresult*', '*video*', '*CMakeFiles*', '*test-assignments*', '*output*']
 
+"""""""""""""""""""""""""""""
 " QFEnter
 let g:qfenter_cc_cmd = 'VScc ##'
+let g:qfenter_exclude_filetypes = ['nerdtree', 'tagbar']
+
+"" test for g:qfenter_enable_autoquickfix
 "let g:qfenter_enable_autoquickfix = 0
+
+"" test for switchbuf option
+"set switchbuf=useopen,usetab
+"set switchbuf=
+
+"" test for g:qfenter_custom_map_list
+"let g:qfenter_custom_map_list = []
+"call add(g:qfenter_custom_map_list, {
+			"\'tabwinfunc': 'QFEnter#GetTabWinNR_Open',
+			"\'qfopencmd': 'cn',
+			"\'keepfocus': 1,
+			"\'keys': ['<Leader>n'],
+			"\})
+"call add(g:qfenter_custom_map_list, {
+			"\'tabwinfunc': 'TestTab1Win1_Open',
+			"\'qfopencmd': 'cc',
+			"\'keepfocus': 0,
+			"\'keys': ['<Leader>t'],
+			"\})
+"func! TestTab1Win1_Open()
+	"return [1, 1, 0, '']
+"endfunc
+"""""""""""""""""""""""""""""
 
 " QFGrep - default mapping
 "let g:QFG_Grep = '<leader>g'
@@ -1014,4 +1048,5 @@ endfunc
 			"\},
 		"\},
 	"\}],
+
 
