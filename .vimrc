@@ -685,8 +685,12 @@ if has('win32')
 	let g:acp_behaviorPythonOmniLength = -1
 endif
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " twcmd.vim
-let g:twcmd_focus_after_closing = 'prev_win_curr_tab'
+
+" test for g:twcmd_focus_after_closing
+"let g:twcmd_focus_after_closing = 'prev_win_curr_tab'
+"let g:twcmd_focus_after_closing = 'none'
 
 let g:left_alt = 0
 if g:left_alt
@@ -758,6 +762,7 @@ else
 	call s:nnoreicmap('','<A-e>',':TWcmd wmvt h<CR>')
 	call s:nnoreicmap('','<A-r>',':TWcmd wmvt l<CR>')
 endif
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " CtrlP
 " Disable default Alt+F10 : CCSM, go to Desktop -> Ubuntu Unity Plugin -> Behaviour to disable the 'open panel menu' key.
@@ -1054,3 +1059,6 @@ endfunc
 			"\},
 		"\},
 	"\}],
+
+
+
