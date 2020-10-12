@@ -13,10 +13,10 @@ Plug 'vim-scripts/CSApprox'
 
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-reload'
+Plug 'mhinz/vim-startify'
+"Plug 'xolox/vim-session'	" will be deleted soon
 Plug 'sk1418/QFGrep'
 Plug 'junegunn/vim-easy-align'
-Plug 'xolox/vim-session'
-Plug 'vim-scripts/Conque-Gdb'
 Plug 'plytophogy/vim-virtualenv'
 
 " my modifications
@@ -911,10 +911,22 @@ let g:easy_align_delimiters = {
 vmap A <Plug>(LiveEasyAlign)
 vmap a <Plug>(EasyAlign)	|" Start interactive EasyAlign in visual mode
 
-" vim-session
-let g:session_autoload = 'yes'
-let g:session_autosave = 'yes'
-let g:session_persist_colors = 0
+" vim-startify
+let g:startify_session_persistence = 1
+let g:startify_lists = [
+	  \ { 'type': 'sessions',  'header': ['   Sessions']       },
+	  \ { 'type': 'files',     'header': ['   MRU']            },
+	  \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+	  \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+	  \ { 'type': 'commands',  'header': ['   Commands']       },
+	  \ ]
+let g:startify_session_dir = '~/DATA/ResearchProjects/NonGit/VimSessions'
+
+"" vim-session - will be deleted soon
+"let g:session_autoload = 'no'
+"let g:session_autosave = 'yes'
+"let g:session_persist_colors = 0
+"let g:session_directory = '~/DATA/ResearchProjects/NonGit/VimSessions'
 
 " a.vim
 nnoremap <Leader>a :A<CR>
