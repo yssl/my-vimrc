@@ -920,7 +920,11 @@ let g:startify_lists = [
 	  \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
 	  \ { 'type': 'commands',  'header': ['   Commands']       },
 	  \ ]
-let g:startify_session_dir = '~/DATA/ResearchProjects/NonGit/VimSessions'
+if has('win32')
+	let g:startify_session_dir = '~/DATA/ResearchEnv-Sync/VimSessions-win'
+else
+	let g:startify_session_dir = '~/DATA/ResearchEnv-Sync/VimSessions-ubt'
+endif
 
 "" vim-session - will be deleted soon
 "let g:session_autoload = 'no'
