@@ -14,7 +14,6 @@ Plug 'vim-scripts/CSApprox'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-reload'
 Plug 'mhinz/vim-startify'
-"Plug 'xolox/vim-session'	" will be deleted soon
 Plug 'sk1418/QFGrep'
 Plug 'junegunn/vim-easy-align'
 Plug 'plytophogy/vim-virtualenv'
@@ -261,6 +260,7 @@ set sessionoptions=curdir,folds,help,tabpages,winpos,winsize
 
 " In general, assume vim is in a virtualenv (thus launches any versions of python just by 'python' command)
 let s:python_launcher = 'python'
+let s:dml3_singularity_python_launcher = 'singularity\ exec\ --nv\ ~/DATA/Code/Research/DML3/container-devel.sif\ python3'
 
 " speicial cases without using a virtualenv
 "let s:python_launcher = 'py\ -2'		|" python2 with py launcher on Windows
@@ -376,39 +376,44 @@ let g:autosettings_settings = [
 			\'makeprg='.s:makeprg_pre.'%'.s:makeprg_post,
 		\],
 	\}],
-	\[['*/DMLcpp/*'],{
+	\[['*/DML3/*/*.py'],{
+		\'setLocals':[
+			\'makeprg='.s:makeprg_pre.s:dml3_singularity_python_launcher.'\ -u\ %'.s:makeprg_post,
+		\],
+	\}],
+	\[['*/DML3/DMLcpp/*'],{
 		\'buildConfigNames':['release','debug'],
 		\'buildConfigs':{
 			\'release':{
 				\'localMaps':[
-					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rbuild\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
-					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rbuildrun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
-					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rrun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
-					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rclean\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.s:dml3_singularity_python_launcher.'\ -u\ make.py\ rbuild\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.s:dml3_singularity_python_launcher.'\ -u\ make.py\ rbuildrun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.s:dml3_singularity_python_launcher.'\ -u\ make.py\ rrun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.s:dml3_singularity_python_launcher.'\ -u\ make.py\ rclean\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
 				\],
 			\},
 			\'debug':{
 				\'localMaps':[
-					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ dbuild\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
-					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ dbuildrun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
-					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ drun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
-					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ dclean\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.s:dml3_singularity_python_launcher.'\ -u\ make.py\ dbuild\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.s:dml3_singularity_python_launcher.'\ -u\ make.py\ dbuildrun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.s:dml3_singularity_python_launcher.'\ -u\ make.py\ drun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+					\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.s:dml3_singularity_python_launcher.'\ -u\ make.py\ dclean\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
 				\],
 			\},
 		\},
 	\}],
-	\[['*/DMLpy/setup.py','*/DMLcpp/setup.py','*/DMLcpp/*/*_py.cpp'],{
+	\[['*/DML3/DMLpy/setup.py','*/DML3/DMLcpp/setup.py','*/DML3/DMLcpp/*/*_py.cpp'],{
 		\'localMaps':[
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ setup.py\ build_ext'.s:makeprg_post.'<CR>:silent Make<CR>'],
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ setup.py\ clean'.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.s:dml3_singularity_python_launcher.'\ -u\ setup.py\ build_ext'.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.s:dml3_singularity_python_launcher.'\ -u\ setup.py\ clean'.s:makeprg_post.'<CR>:silent Make<CR>'],
 		\],
 	\}],
-	\[['*/dart*/*'],{
+	\[['*/DML3/*/dart*/*'],{
 		\'localMaps':[
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rbuild\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rbuildrun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rrun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rclean\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.s:dml3_singularity_python_launcher.'\ -u\ make.py\ rbuild\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.s:dml3_singularity_python_launcher.'\ -u\ make.py\ rbuildrun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.s:dml3_singularity_python_launcher.'\ -u\ make.py\ rrun\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.s:dml3_singularity_python_launcher.'\ -u\ make.py\ rclean\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
 		\],
 	\}],
 \]
