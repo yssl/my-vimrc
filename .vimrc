@@ -260,7 +260,8 @@ set sessionoptions=curdir,folds,help,tabpages,winpos,winsize
 
 " In general, assume vim is in a virtualenv (thus launches any versions of python just by 'python' command)
 let s:python_launcher = 'python'
-let s:dml3_singularity_python_launcher = 'singularity\ exec\ --nv\ ~/DATA/Code/Research/DML3/container-gui.sif\ python3'
+
+let s:dml3_singularity_python_launcher = '~/DATA/Code/Research/DML3/singularity-python.sh'
 
 " speicial cases without using a virtualenv
 "let s:python_launcher = 'py\ -2'		|" python2 with py launcher on Windows
