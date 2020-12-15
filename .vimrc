@@ -377,7 +377,7 @@ let g:autosettings_settings = [
 			\'makeprg='.s:makeprg_pre.'%'.s:makeprg_post,
 		\],
 	\}],
-	\[['*/DML3/*/*.py'],{
+	\[['*/DML3/*/*.py', '*/Code-ImprovingDDC/*'],{
 		\'setLocals':[
 			\'makeprg='.s:makeprg_pre.s:dml3_singularity_python_launcher.'\ -u\ %'.s:makeprg_post,
 		\],
