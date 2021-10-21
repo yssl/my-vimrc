@@ -424,7 +424,7 @@ let g:autosettings_settings = [
 	\[['*/artimo/code/*'],{
 		\'localMaps':[
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:artimo_pip_install_cmd.s:makeprg_post.'<CR>:silent Make<CR>'],
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:artimo_pip_ninstall_cmd.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:artimo_pip_uninstall_cmd.s:makeprg_post.'<CR>:silent Make<CR>'],
 		\],
 	\}],
 \]
@@ -1091,6 +1091,3 @@ endfunc
 			"\},
 		"\},
 	"\}],
-
-
-
