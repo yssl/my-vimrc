@@ -427,6 +427,12 @@ let g:autosettings_settings = [
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:artimo_pip_uninstall_cmd.s:makeprg_post.'<CR>:silent Make<CR>'],
 		\],
 	\}],
+	\[['*/artimo/tests/python/*'],{
+		\'localMaps':[
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:artimo_python_launcher.'\ -m\ pytest\ -v\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-S-A-F9>', ':setlocal makeprg='.s:artimo_python_launcher.'\ -m\ pytest\ -v\ '.s:artimo_path.'/tests/python/'.s:makeprg_post.'<CR>:silent Make<CR>'],
+		\],
+	\}],
 \]
 
 call add(g:autosettings_settings,
