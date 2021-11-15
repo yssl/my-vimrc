@@ -430,9 +430,9 @@ let g:autosettings_settings = [
 	\}],
 	\[['*/artimo/tests/python/*'],{
 		\'localMaps':[
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:artimo_python_launcher.'\ -m\ pytest\ -v\ -s\ --benchmark-skip\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:artimo_python_launcher.'\ -m\ pytest\ -v\ -s\ --benchmark-only\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-S-A-F9>', ':setlocal makeprg='.s:artimo_python_launcher.'\ -m\ pytest\ -v\ '.s:artimo_path.'/tests/python/'.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:artimo_python_launcher.'\ -m\ pytest\ -v\ -s\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:artimo_python_launcher.'\ -m\ pytest\ -v\ -s\ --benchmark-skip\ '.s:artimo_path.'/tests/python/'.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-S-F9>', ':setlocal makeprg='.s:artimo_python_launcher.'\ -m\ pytest\ -v\ -s\ --benchmark-only\ '.s:artimo_path.'/tests/python/'.s:makeprg_post.'<CR>:silent Make<CR>'],
 		\],
 	\}],
 \]
