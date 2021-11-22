@@ -266,6 +266,8 @@ let s:artimo_path = '~/DATA/Code/Research/artimo/'
 let s:artimo_python_launcher = s:artimo_path.'singularity/artimo-python-exec-python.sh'
 let s:artimo_pip_install_cmd = 'time\ '.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ install\ -e\ '.s:artimo_path.'code/python\ --user\ -v'
 let s:artimo_pip_uninstall_cmd = 'time\ '.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ uninstall\ -y\ -v\ artimo'
+let s:artimo_test_cppfuncs_pip_install_cmd = 'time\ '.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ install\ -e\ '.s:artimo_path.'tests/python\ --user\ -v'
+let s:artimo_test_cppfuncs_pip_uninstall_cmd = 'time\ '.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ uninstall\ -y\ -v\ artimo_test_cppfuncs'
 
 " speicial cases without using a virtualenv
 "let s:python_launcher = 'py\ -2'		|" python2 with py launcher on Windows
@@ -433,6 +435,13 @@ let g:autosettings_settings = [
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:artimo_python_launcher.'\ -m\ pytest\ -v\ -s\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:artimo_python_launcher.'\ -m\ pytest\ -v\ -s\ --benchmark-skip\ '.s:artimo_path.'/tests/python/'.s:makeprg_post.'<CR>:silent Make<CR>'],
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-S-F9>', ':setlocal makeprg='.s:artimo_python_launcher.'\ -m\ pytest\ -v\ -s\ --benchmark-only\ '.s:artimo_path.'/tests/python/'.s:makeprg_post.'<CR>:silent Make<CR>'],
+		\],
+	\}],
+	\[['*/artimo/tests/python/*.cpp'],{
+		\'localMaps':[
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:artimo_test_cppfuncs_pip_install_cmd.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:artimo_python_launcher.'\ -u\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:artimo_test_cppfuncs_pip_uninstall_cmd.s:makeprg_post.'<CR>:silent Make<CR>'],
 		\],
 	\}],
 \]
