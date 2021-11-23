@@ -440,7 +440,6 @@ let g:autosettings_settings = [
 	\[['*/artimo/tests/python/*.cpp'],{
 		\'localMaps':[
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:artimo_test_cppfuncs_pip_install_cmd.s:makeprg_post.'<CR>:silent Make<CR>'],
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:artimo_python_launcher.'\ -u\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:artimo_test_cppfuncs_pip_uninstall_cmd.s:makeprg_post.'<CR>:silent Make<CR>'],
 		\],
 	\}],
