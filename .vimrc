@@ -264,10 +264,17 @@ let s:dml3_python_launcher = '~/DATA/Code/Research/DML3/singularity-python-gui.s
 
 let s:artimo_path = '~/DATA/Code/Research/artimo/'
 let s:artimo_python_launcher = s:artimo_path.'singularity/artimo-python-exec-python.sh'
+
 let s:artimo_pip_install_cmd = 'time\ '.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ install\ -e\ '.s:artimo_path.'code/python\ --user\ -v'
-let s:artimo_pip_uninstall_cmd = 'time\ '.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ uninstall\ -y\ -v\ artimo'
+let s:artimo_pip_uninstall_cmd = 'time\ '.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ uninstall\ -y\ -v\ artimo'.';rm\ -rf\ '.s:artimo_path.'code/python/build'
+
 let s:artimo_test_cppfuncs_pip_install_cmd = 'time\ '.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ install\ -e\ '.s:artimo_path.'tests/python\ --user\ -v'
-let s:artimo_test_cppfuncs_pip_uninstall_cmd = 'time\ '.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ uninstall\ -y\ -v\ artimo_test_cppfuncs'
+let s:artimo_test_cppfuncs_pip_uninstall_cmd = 'time\ '.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ uninstall\ -y\ -v\ artimo_test_cppfuncs'.
+												\';'.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ uninstall\ -y\ -v\ artimo_test_cppfuncs_builtin_casters'.
+												\';rm\ -rf\ '.s:artimo_path.'tests/python/build'
+
+let s:artimo_all_pip_install_cmd = s:artimo_pip_install_cmd.';'.s:artimo_test_cppfuncs_pip_install_cmd
+let s:artimo_all_pip_uninstall_cmd = s:artimo_pip_uninstall_cmd.';'.s:artimo_test_cppfuncs_pip_uninstall_cmd
 
 " speicial cases without using a virtualenv
 "let s:python_launcher = 'py\ -2'		|" python2 with py launcher on Windows
@@ -342,7 +349,7 @@ endif
 " F9 : build only
 " A-F9 : build & run 
 " C-F9 : run only
-" C-S-A-F9 : build all & run
+" C-A-S-F9 : build all & run
 " S-F9 : debugger run (conquegdb)
 " F12 : toggle release/debug
 " A-S-F12 : clean
@@ -423,11 +430,17 @@ let g:autosettings_settings = [
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.s:dml3_python_launcher.'\ -u\ make.py\ rclean\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
 		\],
 	\}],
+	\[['*/artimo/*'],{
+		\'localMaps':[
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-A-S-F9>', ':setlocal makeprg='.s:artimo_all_pip_install_cmd.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-A-S-F12>', ':setlocal makeprg='.s:artimo_all_pip_uninstall_cmd.s:makeprg_post.'<CR>:silent Make<CR>'],
+		\],
+	\}],
 	\[['*/artimo/code/*'],{
 		\'localMaps':[
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:artimo_pip_install_cmd.s:makeprg_post.'<CR>:silent Make<CR>'],
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:artimo_python_launcher.'\ -u\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:artimo_pip_uninstall_cmd.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:artimo_python_launcher.'\ -u\ %'.s:makeprg_post.'<CR>:silent Make<CR>'],
 		\],
 	\}],
 	\[['*/artimo/tests/python/*'],{
@@ -437,7 +450,7 @@ let g:autosettings_settings = [
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-S-F9>', ':setlocal makeprg='.s:artimo_python_launcher.'\ -m\ pytest\ -v\ -s\ --benchmark-only\ '.s:artimo_path.'/tests/python/'.s:makeprg_post.'<CR>:silent Make<CR>'],
 		\],
 	\}],
-	\[['*/artimo/tests/python/*.cpp'],{
+	\[['*/artimo/tests/python/*.cpp', '*/artimo/tests/python/*/CMakeLists.txt', '*/artimo/tests/python/setup.py'],{
 		\'localMaps':[
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:artimo_test_cppfuncs_pip_install_cmd.s:makeprg_post.'<CR>:silent Make<CR>'],
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:artimo_test_cppfuncs_pip_uninstall_cmd.s:makeprg_post.'<CR>:silent Make<CR>'],
@@ -1107,3 +1120,6 @@ endfunc
 			"\},
 		"\},
 	"\}],
+
+
+
