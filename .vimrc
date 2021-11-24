@@ -901,7 +901,8 @@ let g:vintsearch_includepatterns =
 "let g:vintsearch_includepatterns =
 	"\ ['*.c','*.cpp','*.h','*.hpp','*.inl']
 let g:vintsearch_excludepatterns =
-	\ ['*automated-tests*','*release*','*optresult*', '*evalresult*', '*video*', '*CMakeFiles*', '*test-assignments*', '*output*']
+	\ ['*automated-tests*','*release*','*optresult*', '*evalresult*', '*video*', '*test-assignments*', 
+	\  '*CMakeFiles*', '*output*', '*build*', '*egg-info*', '*sandbox*']
 
 """""""""""""""""""""""""""""
 " QFEnter
@@ -1120,6 +1121,3 @@ endfunc
 			"\},
 		"\},
 	"\}],
-
-
-
