@@ -265,10 +265,10 @@ let s:dml3_python_launcher = '~/DATA/Code/Research/DML3/singularity-python-gui.s
 let s:artimo_path = '~/DATA/Code/Research/artimo/'
 let s:artimo_python_launcher = s:artimo_path.'singularity/artimo-python-exec-python.sh'
 
-let s:artimo_pip_install_cmd = 'time\ '.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ install\ -e\ '.s:artimo_path.'code/python\ --user\ -v'
+let s:artimo_pip_install_cmd = 'time\ CMAKE_BUILD_PARALLEL_LEVEL=16\ '.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ install\ -e\ '.s:artimo_path.'code/python\ --user\ -v'
 let s:artimo_pip_uninstall_cmd = 'time\ '.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ uninstall\ -y\ -v\ artimo'.';rm\ -rf\ '.s:artimo_path.'code/python/build'
 
-let s:artimo_test_cppfuncs_pip_install_cmd = 'time\ '.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ install\ -e\ '.s:artimo_path.'tests/python\ --user\ -v'
+let s:artimo_test_cppfuncs_pip_install_cmd = 'time\ CMAKE_BUILD_PARALLEL_LEVEL=16\ '.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ install\ -e\ '.s:artimo_path.'tests/python\ --user\ -v'
 let s:artimo_test_cppfuncs_pip_uninstall_cmd = 'time\ '.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ uninstall\ -y\ -v\ artimo_test_cppfuncs'.
 												\';'.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ uninstall\ -y\ -v\ artimo_test_cppfuncs_builtin_casters'.
 												\';rm\ -rf\ '.s:artimo_path.'tests/python/build'
