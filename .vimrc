@@ -497,6 +497,11 @@ else
 	endfun
 endif
 
+
+"""""""""""""""""""""""""""""""""""""""""""""
+" key mappings
+"""""""""""""""""""""""""""""""""""""""""""""
+
 """""""""""""""""""""""""""""""""""""""""""""
 " useful default mappings
 "
@@ -526,6 +531,7 @@ endif
 
 """""""""""""""""""""""""""""""""""""""""""""
 " useful advanced feature
+"
 " diff
 " window
 " tab
@@ -576,9 +582,8 @@ vnoremap <silent> # :<C-U>
 "vmap <Tab> *``z.
 
 """""""""""""""""""""""""""""""""""""""""""""
-" advanced mappings
+" quickfix mappings
 
-" quickfix
 call s:nnoreicmap('','<F2>',':call COpenReturnFocusThenMoveFocus()<CR>')
 call s:nnoreicmap('','<S-F2>',':cclose<CR>')
 call s:nnoreicmap('','<F8>',':VScnextc<CR>')
@@ -638,6 +643,36 @@ func! CWindowDisplayErrorReturnFocus()
 endfunc
 
 command! CWindowDisplayErrorReturnFocus call CWindowDisplayErrorReturnFocus()
+
+func! GetWinNrByBuftype(type)
+	for i in range(1, winnr('$'))
+		let bufnr = winbufnr(i)
+		let buftype = getbufvar(bufnr, '&buftype')
+		if buftype==#a:type
+			return i
+		endif
+	endfor
+	return -1
+endfunc
+
+func! GetWinNrByBufSubname(subname)
+python << EOF
+import vim
+subname = vim.eval('a:subname')
+exist = False
+for i in range(len(vim.windows)):
+	bufname = vim.windows[i].buffer.name
+	#print bufname
+	if bufname==None:
+		continue
+	elif subname in bufname:
+		vim.command('return %d'%(i+1))
+		exist = True
+		break
+if not exist:
+	vim.command('return -1')
+EOF
+endfunc
 
 """""""""""""""""""""""""""""""""""""""""""""
 " leader mappings
@@ -722,9 +757,18 @@ fun! ToggleSpellChecker()
 	endif
 endfun
 
+" refresh all files in buffer (:bufdo e) without prompt 'Load(Y/N)'
+nmap <Leader>be :call RefreshAllBuffers()<CR><CR><CR>
+fun! RefreshAllBuffers()
+  set noconfirm
+  bufdo e
+  set confirm
+endfun
+
 """""""""""""""""""""""""""""""""""""""""""""
 " plugin mappings
 
+" vim-autocomplpop
 if has('win32')
 	let g:acp_behaviorPythonOmniLength = -1
 endif
@@ -971,12 +1015,6 @@ else
 	let g:startify_session_dir = '~/DATA/ResearchEnv-Sync/VimSessions-ubt'
 endif
 
-"" vim-session - will be deleted soon
-"let g:session_autoload = 'no'
-"let g:session_autosave = 'yes'
-"let g:session_persist_colors = 0
-"let g:session_directory = '~/DATA/ResearchProjects/NonGit/VimSessions'
-
 " a.vim
 nnoremap <Leader>a :A<CR>
 
@@ -987,136 +1025,3 @@ let g:ConqueGdb_Leader = '\'
 if has('win32')
 	let g:virtualenv_directory = 'C:\Users\yoonsang\Envs'
 endif
-
-"""""""""""""""""""""""""""""""""""""""""""""
-" jump to window functions
-"""""""""""""""""""""""""""""""""""""""""""""
-func! GetWinNrByBuftype(type)
-	for i in range(1, winnr('$'))
-		let bufnr = winbufnr(i)
-		let buftype = getbufvar(bufnr, '&buftype')
-		if buftype==#a:type
-			return i
-		endif
-	endfor
-	return -1
-endfunc
-
-func! GetWinNrByBufSubname(subname)
-python << EOF
-import vim
-subname = vim.eval('a:subname')
-exist = False
-for i in range(len(vim.windows)):
-	bufname = vim.windows[i].buffer.name
-	#print bufname
-	if bufname==None:
-		continue
-	elif subname in bufname:
-		vim.command('return %d'%(i+1))
-		exist = True
-		break
-if not exist:
-	vim.command('return -1')
-EOF
-endfunc
-
-"""""""""""""""""""""""""""""""""""""""""""""
-" key mappings - not necessary for xterm
-"""""""""""""""""""""""""""""""""""""""""""""
-"if !has('gui_running')
-	"" to recognize alt key in gnome terminal
-	"" http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim
-	"function! RegisterAltMaps(start_ascii, end_ascii)
-		"let n=a:start_ascii
-		"while n <= a:end_ascii
-		  "let c = nr2char(n)
-		  "if c==#'"'
-			  "let c = '\'.c
-		  "elseif c==#'>' || c==#'|'
-			  "let n = n+1
-			  "continue
-		  "endif
-		  "exec "set <A-".c.">=\e".c
-		  "exec "imap \e".c." <A-".c.">"
-		  "let n = n+1
-		"endw
-	"endfunction
-	""call RegisterAltMaps(48, 57)	|"0 to 9
-	"call RegisterAltMaps(92, 93)	|"\,]
-	"call RegisterAltMaps(45, 61)	|"-,=
-	"call RegisterAltMaps(40, 41)	|"(,)
-	""call RegisterAltMaps(97, 122)	|"a to z - now vim-fixkey do this.
-	"set timeout ttimeoutlen=50
-"endif
-
-
-	"\[['*/DMLcpp/*'],{
-		"\'buildConfigNames':['release','debug'],
-		"\'buildConfigs':{
-			"\'release':{
-				"\'localMaps':[
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rbuildrun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rbuild\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rrun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ rclean\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-				"\],
-				"\'localMapsExpr':[
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<S-F9>', "':ConqueGdb '.split(system('make rprintbin'),'\n')[1].'<CR>'"],
-				"\],
-			"\},
-			"\'debug':{
-				"\'localMaps':[
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ dbuildrun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ dbuild\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ drun\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:makeprg_pre.s:python_launcher.'\ -u\ make.py\ dclean\ %'.s:makeprg_post.'<CR>:w<CR>:silent Make<CR>'],
-				"\],
-				"\'localMapsExpr':[
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<S-F9>', "':ConqueGdb '.split(system('make dprintbin'),'\n')[1].'<CR>'"],
-				"\],
-			"\},
-		"\},
-	"\}],
-
-	"\[['*/dali*'],{
-		"\'setLocals':[
-			"\'tabstop=2',
-			"\'shiftwidth=2',
-			"\'expandtab',
-		"\],
-	"\}],
-	"\[['*/homescreen*','*/itc*','*/online-doc*'],{
-		"\'setLocals':[
-			"\'tabstop=2',
-			"\'shiftwidth=2',
-			"\'noexpandtab',
-		"\],
-	"\}],
-	"\[['*/dali*'],{
-		"\'configNames':['release','debug'],
-		"\'defaultConfigName':'release',
-		"\'commonConfig':{
-			"\'localMapsExpr':[
-				"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', "':Dispatch makedali.py install2run '.expand('%:p').'; echo \"END:0::\"<CR>'"],
-				"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', "':Dispatch makedali.py run '.expand('%:p').'; echo \"END:0::\"<CR>'"],
-				"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<S-F9>', "':ConqueGdb '.$DESKTOP_PREFIX.'/bin/'.GetDaliRunFile(expand('%:p')).'; echo \"END:0::\"<CR>'"],
-				"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', "':Dispatch makedali.py install '.expand('%:p').'; echo \"END:0::\"<CR>'"],
-				"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', "':Dispatch makedali.py clean '.expand('%:p').'; echo \"END:0::\"<CR>'"],
-			"\],
-		"\},
-		"\'configs':{
-			"\'release':{
-				"\'localMapsExpr':[
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-S-A-F9>', "':Dispatch makedali.py install_all2run_release '.expand('%:p').'; echo \"END:0::\"<CR>'"],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<S-F12>', "':Dispatch makedali.py configure_release '.expand('%:p').'; echo \"END:0::\"<CR>'"],
-				"\],
-			"\},
-			"\'debug':{
-				"\'localMapsExpr':[
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-S-A-F9>', "':Dispatch makedali.py install_all2run_debug '.expand('%:p').'; echo \"END:0::\"<CR>'"],
-					"\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<S-F12>', "':Dispatch makedali.py configure_debug '.expand('%:p').'; echo \"END:0::\"<CR>'"],
-				"\],
-			"\},
-		"\},
-	"\}],
