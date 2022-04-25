@@ -756,12 +756,13 @@ fun! ToggleSpellChecker()
 	endif
 endfun
 
-" refresh all files in buffer (:bufdo e) without prompt 'Load(Y/N)'
-nmap <Leader>be :call RefreshAllBuffers()<CR><CR><CR>
+
+" refresh all files in buffer without prompt 'Load(Y/N)'
+nmap <Leader>be :call RefreshAllBuffers()<CR>
 fun! RefreshAllBuffers()
-  set noconfirm
-  bufdo e
-  set confirm
+  set autoread
+  checktime
+  set noautoread
 endfun
 
 """""""""""""""""""""""""""""""""""""""""""""
