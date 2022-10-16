@@ -765,6 +765,14 @@ fun! RefreshAllBuffers()
   set noautoread
 endfun
 
+"" refresh all files in buffer (:bufdo e) without prompt 'Load(Y/N)'
+"nmap <Leader>be :call RefreshAllBuffers()<CR><CR><CR>
+"fun! RefreshAllBuffers()
+  "set noconfirm
+  "bufdo e
+  "set confirm
+"endfun
+
 """""""""""""""""""""""""""""""""""""""""""""
 " plugin mappings
 
@@ -952,13 +960,23 @@ let g:vintsearch_excludepatterns =
 let g:qfenter_cc_cmd = 'VScc ##'
 let g:qfenter_exclude_filetypes = ['nerdtree', 'tagbar']
 
+" test for g:qfenter_autoclose
+"let g:qfenter_autoclose = 0
+"let g:qfenter_autoclose = 1
+
+" test for g:qfenter_excluded_action
+"let g:qfenter_excluded_action = 'next'
+"let g:qfenter_excluded_action = 'error'
+"let g:qfenter_excluded_action = 'undefined'
+
 "" test for g:qfenter_prevtabwin_policy
 "let g:qfenter_prevtabwin_policy = 'qf'
 "let g:qfenter_prevtabwin_policy = 'none'
 "let g:qfenter_prevtabwin_policy = 'legacy'
-"let g:qfenter_prevtabwin_policy = 'test'
+"let g:qfenter_prevtabwin_policy = 'undefined'
 
-"" test for g:qfenter_enable_autoquickfix
+" test for g:qfenter_enable_autoquickfix
+"let g:qfenter_enable_autoquickfix = 1
 "let g:qfenter_enable_autoquickfix = 0
 
 "" test for switchbuf option
