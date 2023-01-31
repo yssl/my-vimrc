@@ -268,13 +268,13 @@ let s:artimo_python_launcher = s:artimo_path.'singularity/artimo-python-exec-pyt
 let s:artimo_pip_install_cmd = 'time\ CMAKE_BUILD_PARALLEL_LEVEL=16\ '.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ install\ -e\ '.s:artimo_path.'code/python\ --user\ -v'
 let s:artimo_pip_uninstall_cmd = 'time\ '.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ uninstall\ -y\ -v\ artimo'.';rm\ -rf\ '.s:artimo_path.'code/python/build'
 
-let s:artimo_test_cppfuncs_pip_install_cmd = 'time\ CMAKE_BUILD_PARALLEL_LEVEL=16\ '.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ install\ -e\ '.s:artimo_path.'tests/python\ --user\ -v'
-let s:artimo_test_cppfuncs_pip_uninstall_cmd = 'time\ '.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ uninstall\ -y\ -v\ artimo_test_cppfuncs'.
-												\';'.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ uninstall\ -y\ -v\ artimo_test_cppfuncs_builtin_casters'.
+let s:artimo_test_utilfuncs_pip_install_cmd = 'time\ CMAKE_BUILD_PARALLEL_LEVEL=16\ '.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ install\ -e\ '.s:artimo_path.'tests/python\ --user\ -v'
+let s:artimo_test_utilfuncs_pip_uninstall_cmd = 'time\ '.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ uninstall\ -y\ -v\ artimo-test-utilfuncs'.
+												\';'.s:artimo_path.'singularity/artimo-python-exec.sh\ pip3\ uninstall\ -y\ -v\ artimo-test-builtincasters'.
 												\';rm\ -rf\ '.s:artimo_path.'tests/python/build'
 
-let s:artimo_all_pip_install_cmd = s:artimo_pip_install_cmd.';'.s:artimo_test_cppfuncs_pip_install_cmd
-let s:artimo_all_pip_uninstall_cmd = s:artimo_pip_uninstall_cmd.';'.s:artimo_test_cppfuncs_pip_uninstall_cmd
+let s:artimo_all_pip_install_cmd = s:artimo_pip_install_cmd.';'.s:artimo_test_utilfuncs_pip_install_cmd
+let s:artimo_all_pip_uninstall_cmd = s:artimo_pip_uninstall_cmd.';'.s:artimo_test_utilfuncs_pip_uninstall_cmd
 
 " speicial cases without using a virtualenv
 "let s:python_launcher = 'py\ -2'		|" python2 with py launcher on Windows
@@ -451,8 +451,8 @@ let g:autosettings_settings = [
 	\}],
 	\[['*/artimo/tests/python/*.cpp', '*/artimo/tests/python/*/CMakeLists.txt', '*/artimo/tests/python/setup.py'],{
 		\'localMaps':[
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:artimo_test_cppfuncs_pip_install_cmd.s:makeprg_post.'<CR>:silent Make<CR>'],
-			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:artimo_test_cppfuncs_pip_uninstall_cmd.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':setlocal makeprg='.s:artimo_test_utilfuncs_pip_install_cmd.s:makeprg_post.'<CR>:silent Make<CR>'],
+			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-S-F12>', ':setlocal makeprg='.s:artimo_test_utilfuncs_pip_uninstall_cmd.s:makeprg_post.'<CR>:silent Make<CR>'],
 		\],
 	\}],
 \]
