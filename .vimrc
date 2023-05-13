@@ -469,10 +469,10 @@ call add(g:autosettings_settings,
 			\'wrap',
 			\'expandtab',
 			\'tw=0',
-			\'makeprg='.s:makeprg_pre.'latexmk\ -pdf\ -latexoption=\"-synctex=1\"\ index.tex'.s:makeprg_post,
+			\'makeprg='.s:makeprg_pre.'latexmk\ -pdf\ -latexoption=\"-synctex=1\"\ %'.s:makeprg_post,
 		\],
 	\}])
-			"\'makeprg='.s:makeprg_pre.'latexmk\ -pdf\ -latexoption=\"-synctex=1\"\ %'.s:makeprg_post,
+			"\'makeprg='.s:makeprg_pre.'latexmk\ -pdf\ -latexoption=\"-synctex=1\"\ index.tex'.s:makeprg_post,
 
 if has('win32')
 	fun! OpenCurrentPDF()
@@ -491,8 +491,8 @@ else
 	endfun
 
 	fun! Tex_GetMainFileName()
-		"return expand('%')
-		return expand('index.tex')
+		return expand('%')
+		"return expand('index.tex')
 	endfun
 endif
 
