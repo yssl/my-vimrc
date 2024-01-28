@@ -463,7 +463,7 @@ call add(g:autosettings_settings,
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<F9>', ':w<CR>:silent Make<CR>:call OpenCurrentPDF()<CR>'],
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<A-F9>', ':w<CR>:silent Make<CR>'],
 			\[['nnoremap', 'inoremap', 'cnoremap', 'vnoremap'], '<C-F9>', ':w<CR>:call OpenCurrentPDF()<CR>'],
-			\[['nnoremap'], '<Leader>fs', ':call Tex_ForwardSearchLaTeX()<CR>'],
+			\[['nnoremap'], '<Leader>fs', ':call  _ForwardSearchLaTeX()<CR>'],
 		\],
 		\'setLocals':[
 			\'wrap',
@@ -482,7 +482,7 @@ else
 	fun! OpenCurrentPDF()
 		"exec 'silent !gnome-open '.fnamemodify(expand('%'), ":p:r").'.pdf'
 		"exec 'silent !evince '.fnamemodify(Tex_GetMainFileName(), ":p:r").'.pdf '.v:servername.' &'
-		exec 'silent !evince '.fnamemodify(Tex_GetMainFileName(), ":p:r").'.pdf &'
+		exec 'silent !evince "'.fnamemodify(Tex_GetMainFileName(), ":p:r").'".pdf &'
 	endfun
 
 	fun! Tex_ForwardSearchLaTeX()
